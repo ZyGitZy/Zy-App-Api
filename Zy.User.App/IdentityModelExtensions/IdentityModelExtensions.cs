@@ -20,7 +20,7 @@ namespace Zy.User.App.IdentityModelExtensions
 
         public static IServiceCollection AddIdentityModel(this IServiceCollection service, Action<IdentityOptions> action)
         {
-            IdentityOptions identityOptions = new IdentityOptions();
+            IdentityOptions identityOptions = new();
             action.Invoke(identityOptions);
 
             service.AddIdentity<UserEntity, RoleEntity>(option =>
