@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Zy.App.Common.Core.DbContextExtension;
 using Zy.App.Common.Core.IdGenerate;
 using Zy.App.Common.Interfaces;
 
@@ -7,11 +8,11 @@ namespace Zy.App.Common.StoreCore
 {
     public class EntityStore<TEntity> : IEntityStore<TEntity> where TEntity : class, IEntity
     {
-        private readonly DbContext dbContext;
+        private readonly DbContextBase dbContext;
 
         private readonly DbSet<TEntity> dataSet;
 
-        public EntityStore(DbContext dbContext)
+        public EntityStore(DbContextBase dbContext)
         {
             this.dbContext = dbContext;
             this.dataSet = this.dbContext.Set<TEntity>();

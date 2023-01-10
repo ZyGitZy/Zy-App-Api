@@ -22,6 +22,28 @@ namespace Singnalr.DAL.IdentityExentions
                 };
         }
 
+        public static IEnumerable<Client> Clients =>
+       new List<Client>
+       {
+            new Client
+            {
+                ClientId = "client",
+
+                // 没有交互式用户，使用 clientid/secret 进行身份验证
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                // 用于身份验证的密钥
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())  //secret加密密钥 Sha256加密方式
+                },
+
+                // 客户端有权访问的范围
+                AllowedScopes = { "Signalr" },
+                AccessTokenLifetime = 120 //过期时间，默认3600秒
+            }
+       };
+
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new[]

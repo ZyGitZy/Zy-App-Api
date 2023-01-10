@@ -22,7 +22,7 @@ namespace Zy.App.Common.Core.DbContextExtension
 
         protected IZyAppContext singlarContex = EmptyZyAppContext.Empty;
 
-        public DbContextBase(DbContextOptions<DbContextBase> options, IConfiguration configuration) : base(options)
+        public DbContextBase(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             this._globalQueryFilter = new GlobalQueryFilter();
             this.configuration = configuration;
@@ -39,7 +39,7 @@ namespace Zy.App.Common.Core.DbContextExtension
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = this.configuration.GetSection("ConnectionString").Value;
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e => e.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e => e.MigrationsAssembly("Zy.App.Api"));
         }
 
         protected virtual void UpdateEntry(EntityEntry entity, UpdateContextInfo updateContextInfo)

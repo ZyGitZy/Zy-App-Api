@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Zy.App.Common.Core.Controller
 {
-    [Authorize]
     [Route("[Controller]")]
+    [Authorize]
     public class ApiController : ControllerBase
     {
     }

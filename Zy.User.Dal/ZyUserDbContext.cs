@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 using Zy.User.DAL.Entitys;
 
 namespace Zy.User.Dal
 {
     public class ZyUserDbContext : IdentityDbContext<UserEntity, RoleEntity, long, UserClaimEntity, UserRoleEntity, UserLoginEntity, RoleClaimEntity, UserTokenEntity>
     {
-        private IConfiguration configuration;
+        private readonly IConfiguration configuration;
 
         public ZyUserDbContext(DbContextOptions<ZyUserDbContext> options, IConfiguration configuration)
               : base(options)
@@ -24,7 +25,7 @@ namespace Zy.User.Dal
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = this.configuration.GetSection("ConnectionString").Value;
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e => e.MigrationsAssembly("Signalr-Msg-Api"));
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e => e.MigrationsAssembly("Zy.App.Api"));
         }
 
         private static void BuildIdentityModel(ModelBuilder builder)
@@ -37,28 +38,28 @@ namespace Zy.User.Dal
                     b.HasMany<UserLoginEntity>().WithOne().HasForeignKey(u => u.UserId).IsRequired();
                     b.HasMany<UserTokenEntity>().WithOne().HasForeignKey(u => u.UserId).IsRequired();
                     b.HasMany<UserRoleEntity>().WithOne().HasForeignKey(u => u.UserId).IsRequired();
-                    b.ToTable("Ids.User");
+                    b.ToTable("User.User");
                 });
 
             builder.Entity<UserClaimEntity>(
                 b =>
                 {
                     b.HasKey(k => k.Id);
-                    b.ToTable("Ids.UserClaim");
+                    b.ToTable("User.UserClaim");
                 });
 
             builder.Entity<UserLoginEntity>(
                 b =>
                 {
                     b.HasKey(l => new { l.LoginProvider, l.ProviderKey });
-                    b.ToTable("Ids.UserLogin");
+                    b.ToTable("User.UserLogin");
                 });
 
             builder.Entity<UserTokenEntity>(
                 b =>
                 {
                     b.HasKey(l => new { l.UserId, l.LoginProvider, l.Name });
-                    b.ToTable("Ids.UserToken");
+                    b.ToTable("User.UserToken");
                 });
 
             builder.Entity<RoleEntity>(
@@ -67,21 +68,21 @@ namespace Zy.User.Dal
                     b.HasKey(k => k.Id);
                     b.HasMany<UserRoleEntity>().WithOne().HasForeignKey(u => u.RoleId).IsRequired();
                     b.HasMany<RoleClaimEntity>().WithOne().HasForeignKey(u => u.RoleId).IsRequired();
-                    b.ToTable("Ids.Role");
+                    b.ToTable("User.Role");
                 });
 
             builder.Entity<RoleClaimEntity>(
                 b =>
                 {
                     b.HasKey(k => k.Id);
-                    b.ToTable("Ids.RoleClaim");
+                    b.ToTable("User.RoleClaim");
                 });
 
             builder.Entity<UserRoleEntity>(
                 b =>
                 {
                     b.HasKey(k => new { k.UserId, k.RoleId });
-                    b.ToTable("Ids.UserRole");
+                    b.ToTable("User.UserRole");
                 });
         }
 

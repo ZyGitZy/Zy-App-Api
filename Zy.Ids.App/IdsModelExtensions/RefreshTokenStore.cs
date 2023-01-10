@@ -26,10 +26,11 @@ namespace Zy.Ids.App.IdsModelExtensions
             this.perStore = entityStore;
         }
 
-        public async Task<IEnumerable<PersistedGrant>> GetAllAsync(PersistedGrantFilter filter)
+
+
+        public Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
         {
-            var entity = await this.perStore.Query().ToListAsync();
-            return entity.Select(this.GetPersistedGrant);
+            throw new NotImplementedException();
         }
 
         public async Task<PersistedGrant> GetAsync(string key)
@@ -38,9 +39,19 @@ namespace Zy.Ids.App.IdsModelExtensions
             return this.GetPersistedGrant(entity);
         }
 
-        public async Task RemoveAllAsync(PersistedGrantFilter filter)
+        public async Task RemoveAllAsync(string subjectId, string clientId)
         {
-            var entity = await this.perStore.Query(q => q.SubjectId == filter.SubjectId && q.ClientId == filter.ClientId).ToListAsync();
+            var entity = await this.perStore.Query(q => q.SubjectId == subjectId && q.ClientId == clientId).ToListAsync();
+            if (entity.Any())
+            {
+                this.serviceDbContext.Set<PersistedGrantEntity>().RemoveRange(entity);
+                await this.serviceDbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveAllAsync(string subjectId, string clientId, string type)
+        {
+            var entity = await this.perStore.Query(q => q.SubjectId == subjectId && q.ClientId == clientId && q.Type == type).ToListAsync();
             if (entity.Any())
             {
                 this.serviceDbContext.Set<PersistedGrantEntity>().RemoveRange(entity);

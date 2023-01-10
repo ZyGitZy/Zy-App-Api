@@ -85,10 +85,10 @@ namespace Zy.Ids.App.IdsModelExtensions
                 client.RedirectUris = new string[] { string.Empty };
             }
 
-            Dictionary<string, ClientClaim> filterDic = new()
+            Dictionary<string, Claim> filterDic = new()
             {
-                { "client_id", new ClientClaim("client_id", clientEntity.ClientId) },
-                { "client_name", new ClientClaim("client_name", clientEntity.ClientName) }
+                { "client_id", new Claim("client_id", clientEntity.ClientId) },
+                { "client_name", new Claim("client_name", clientEntity.ClientName) }
             };
 
             client.Claims = filterDic.Values.ToArray();

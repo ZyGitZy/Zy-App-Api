@@ -19,15 +19,15 @@ namespace Zy.Video.App
 {
     public static class VideoModelExtensions
     {
-        public static IServiceCollection AddVideoServiceModule(this IServiceCollection services, IMvcBuilder mvcBuilder, Action<IServiceProvider, IMapperConfigurationExpression>? mapperConfig = null)
+        public static IMvcBuilder AddVideoServiceModule(this IMvcBuilder mvcBuilder, Action<IServiceProvider, IMapperConfigurationExpression>? mapperConfig = null)
         {
             AddControllers(mvcBuilder);
-            AddScop(services);
-            services.AddAutoMapperModule(new List<Assembly>
+            AddScop(mvcBuilder.Services);
+            mvcBuilder.Services.AddAutoMapperModule(new List<Assembly>
             {
                 typeof(VideoFileProfileDto).Assembly
             });
-            return services;
+            return mvcBuilder;
         }
 
         public static void AddControllers(IMvcBuilder builder)
