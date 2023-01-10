@@ -5,9 +5,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Singnalr.DAL.IdentityExentions;
+using System.Text;
+using Zy.App.Common.Models;
 using Zy.User.Dal;
 using Zy.User.DAL.Entitys;
+using static System.Net.WebRequestMethods;
 
 namespace Zy.Ids.App.IdsModelExtensions
 {
@@ -30,19 +34,30 @@ namespace Zy.Ids.App.IdsModelExtensions
             .Services.AddTransient<IdentityServer4.ResponseHandling.IUserInfoResponseGenerator, UserInfoResponseGenerator>()
             .AddTransient<IdentityServer4.ResponseHandling.IIntrospectionResponseGenerator, IntrospectionResponseGenerator>();
 
-            var authorityc = configuration.GetSection("Authority").Value;
+            var authority = configuration.GetSection("Authority").Value;
 
             service.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddIdentityServerAuthentication("Bearer", options =>
+            }).AddJwtBearer("Bearer", options =>
             {
-                options.Authority = authorityc;
+                options.Authority = authority;
                 options.RequireHttpsMetadata = false;
-                options.ApiName = "Signalr";
-                options.ApiSecret = "Signalr.secret";
+                options.Audience = "Signalr";
             });
+
+            //service.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddIdentityServerAuthentication("Bearer", options =>
+            //{
+            //    options.Authority = authorityc;
+            //    options.RequireHttpsMetadata = false;
+            //    options.ApiName = "Signalr";
+            //    options.ApiSecret = "Signalr.secret";
+            //});
 
 
             return service;
