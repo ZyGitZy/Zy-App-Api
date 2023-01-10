@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zy.App.Common\Zy.App.Common.csproj" />
+    <ProjectReference Include="..\Zy.Ids.App\Zy.Ids.App.csproj" />
     <ProjectReference Include="..\Zy.User.App\Zy.User.App.csproj" />
     <ProjectReference Include="..\Zy.Video.App\Zy.Video.App.csproj" />
   </ItemGroup>
