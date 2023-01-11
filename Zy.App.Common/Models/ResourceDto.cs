@@ -7,10 +7,10 @@ using Zy.App.Common.Interfaces;
 
 namespace Zy.App.Common.Models
 {
-    public class BusinessObject : IBusinessObject<long?>
+    public class ResourceDto: IAppDto
     {
-        public virtual long? Id { get; set; }
+        public long? Id { get; set; }
 
-        public virtual int? RowVersion { get; set; }
+        public int? RowVersion { get; set; }
     }
 }

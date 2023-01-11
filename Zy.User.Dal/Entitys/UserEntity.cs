@@ -39,5 +39,9 @@ namespace Zy.User.DAL.Entitys
         [Required]
         [DefaultValue(typeof(DateTime), "0001-01-01")]
         public DateTime LastUpdateDateTime { get; set; }
+
+        [Required]
+        [DefaultValue("")]
+        public string Password { get; set; } = string.Empty;
     }
 }

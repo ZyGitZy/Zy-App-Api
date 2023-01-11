@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Zy.App.Common.Interfaces
 {
-    public interface IBusinessObject<TKey>: IBusinessObject
+    public interface IResourceBo<TKey>: IResourceBo
     {
         TKey Id { get; set; }
     }

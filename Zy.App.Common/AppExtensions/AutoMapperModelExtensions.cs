@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Zy.App.Common.Interfaces;
 using Zy.App.Common.Models;
+using Zy.App.Common.StoreCore;
 
 namespace Zy.App.Common.AppExtensions
 {
@@ -26,7 +27,7 @@ namespace Zy.App.Common.AppExtensions
 
                 mapConfig.ForAllMaps((typeMap, mappingExpression) =>
                 {
-                    var isBo = typeof(BusinessObject).IsAssignableFrom(typeMap.SourceType);
+                    var isBo = typeof(ResourceBo).IsAssignableFrom(typeMap.SourceType);
                     var isEntity = typeof(IEntity).IsAssignableFrom(typeMap.DestinationType);
 
                     if (isBo && isEntity)
@@ -36,6 +37,14 @@ namespace Zy.App.Common.AppExtensions
                     }
                 });
             }, autoAssemblies);
+
+            return services;
+        }
+
+        public static IServiceCollection AddLibScopModels(this IServiceCollection services)
+        {
+            services.AddScoped<INoNormalizer, NoNormalizer>();
+            services.AddScoped(typeof(IEntityStore<>), typeof(EntityStore<>));
 
             return services;
         }

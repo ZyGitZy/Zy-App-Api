@@ -18,6 +18,11 @@ namespace Zy.App.Common.AppExtensions
 
         object? IServiceResult.TData { get => this.TData; set => this.TData = (T)(value ?? default!); }
 
+        public static ServiceResult<T> Ok()
+        {
+            return new ServiceResult<T> { Success = true };
+        }
+
         public static ServiceResult<T> Ok(T t)
         {
             return new ServiceResult<T> { Success = true, TData = t };
@@ -32,6 +37,12 @@ namespace Zy.App.Common.AppExtensions
         public static ServiceResult<T> Error(string title, string detail)
         {
             IErrorDetail info = new ErrorDetail(title, detail);
+            return new ServiceResult<T> { Success = false, TData = default, ErrDetail = info };
+        }
+
+        public static ServiceResult<T> Error(string detail)
+        {
+            IErrorDetail info = new ErrorDetail(detail);
             return new ServiceResult<T> { Success = false, TData = default, ErrDetail = info };
         }
     }

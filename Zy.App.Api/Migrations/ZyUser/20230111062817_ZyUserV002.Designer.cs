@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Zy.User.Dal;
 
@@ -10,9 +11,10 @@ using Zy.User.Dal;
 namespace Zy.App.Api.Migrations.ZyUser
 {
     [DbContext(typeof(ZyUserDbContext))]
-    partial class ZyUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230111062817_ZyUserV002")]
+    partial class ZyUserV002
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

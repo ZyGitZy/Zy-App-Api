@@ -32,7 +32,7 @@ namespace Singnalr.DAL.IdentityExentions
                 ClientId = "client",
 
                 // 没有交互式用户，使用 clientid/secret 进行身份验证
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
                 // 用于身份验证的密钥
                 ClientSecrets =

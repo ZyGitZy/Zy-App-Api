@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Zy.User\Zy.User.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Profiles\" />
+  </ItemGroup>
+
 </Project>
