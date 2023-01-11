@@ -19,7 +19,7 @@ namespace Zy.Ids.App.IdsModelExtensions
     {
         public static IServiceCollection AddIdentityServiceModel(this IServiceCollection service, IConfiguration configuration, string selectName = "IdentityOptions")
         {
-            //        AddSocp(service);
+            AddSocp(service);
             AddIdentityModel(service, opt => configuration.GetSection(selectName).Bind(opt));
             service.AddIdentityServer()
              .AddDeveloperSigningCredential()
@@ -46,6 +46,15 @@ namespace Zy.Ids.App.IdsModelExtensions
                 options.RequireHttpsMetadata = false;
                 options.Audience = "Signalr";
             });
+
+            // 策略 可以限制满足某些需求后才能通过
+            //service.AddAuthorization(opt =>
+            //{
+            //    opt.AddPolicy("ApiScop", o =>
+            //    {
+            //        o.RequireClaim("client_id");
+            //    });
+            //});
 
             //service.AddAuthentication(options =>
             //{
