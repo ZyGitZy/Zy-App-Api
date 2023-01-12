@@ -12,6 +12,7 @@ using Zy.App.Common.Models;
 using Zy.App.Common.StoreCore;
 using Zy.User.Bll.Interfaces;
 using Zy.User.Bll.Models;
+using Zy.User.Dal;
 using Zy.User.DAL.Entitys;
 
 namespace Zy.User.Bll.Services
@@ -21,13 +22,13 @@ namespace Zy.User.Bll.Services
         private readonly IPasswordHasher<UserEntity> _passwordHasher;
         private readonly UserManager<UserEntity> userManager;
         private readonly SignInManager<UserEntity> _signInManager;
-        private readonly IEntityStore<UserEntity> userEntityStore;
-        private INoNormalizer noNormalizer;
-        private IMapper mapper;
+        private readonly UserEntityStore<UserEntity> userEntityStore;
+        private readonly INoNormalizer noNormalizer;
+        private readonly IMapper mapper;
         private readonly string userTemp = "用户";
-        private IZyAppContext zyAppContext;
+        private readonly IZyAppContext zyAppContext;
 
-        public UserService(IEntityStore<UserEntity> userEntityStore, SignInManager<UserEntity> _signInManager, UserManager<UserEntity> userManager, IZyAppContext zyAppContext, INoNormalizer noNormalizer, IMapper mapper, IPasswordHasher<UserEntity> _passwordHasher)
+        public UserService(UserEntityStore<UserEntity> userEntityStore, SignInManager<UserEntity> _signInManager, UserManager<UserEntity> userManager, IZyAppContext zyAppContext, INoNormalizer noNormalizer, IMapper mapper, IPasswordHasher<UserEntity> _passwordHasher)
         {
             this._passwordHasher = _passwordHasher;
             this.noNormalizer = noNormalizer;
@@ -137,7 +138,6 @@ namespace Zy.User.Bll.Services
             queryResult.Items = this.mapper.Map<IEnumerable<UserEntity>, IEnumerable<UserBo>>(source);
 
             return this.Ok(queryResult);
-
         }
 
         private async Task<bool> IsExistsNo(string no)

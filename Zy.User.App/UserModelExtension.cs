@@ -9,6 +9,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Zy.App.Common.AppExtensions;
+using Zy.App.Common.StoreCore;
+using Zy.User.App.Controllers;
+using Zy.User.App.Profiles;
+using Zy.User.Bll.Interfaces;
+using Zy.User.Bll.Profiles;
+using Zy.User.Bll.Services;
 using Zy.User.Dal;
 
 namespace Zy.User.App
@@ -21,19 +27,23 @@ namespace Zy.User.App
             AddControllers(mvcBuilder);
             mvcBuilder.Services.AddAutoMapperModule(new List<Assembly>
             {
-                //typeof(VideoFileProfileDto).Assembly
+                typeof(UserDtoProfile).Assembly,
+                typeof(UserBoProfile).Assembly
             });
             return mvcBuilder;
         }
 
         private static void AddControllers(IMvcBuilder builder)
         {
-            //builder.AddApplicationPart(typeof(VideoFileController).Assembly);
+            builder.AddApplicationPart(typeof(UserController).Assembly);
         }
 
         private static void AddScop(this IServiceCollection services)
         {
             services.AddDbContext<ZyUserDbContext>();
+            services.AddScoped(typeof(EntityStore<>), typeof(UserEntityStore<>));
+            services.AddScoped(typeof(UserEntityStore<>), typeof(UserEntityStore<>));
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

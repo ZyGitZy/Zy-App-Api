@@ -8,7 +8,7 @@ namespace Zy.App.Common.StoreCore
 {
     public class EntityStore<TEntity> : IEntityStore<TEntity> where TEntity : class, IEntity
     {
-        private readonly DbContextBase dbContext;
+        private readonly DbContext dbContext;
 
         private readonly DbSet<TEntity> dataSet;
 

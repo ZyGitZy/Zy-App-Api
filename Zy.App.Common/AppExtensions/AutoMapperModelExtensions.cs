@@ -44,6 +44,7 @@ namespace Zy.App.Common.AppExtensions
         public static IServiceCollection AddLibScopModels(this IServiceCollection services)
         {
             services.AddScoped<INoNormalizer, NoNormalizer>();
+            services.AddScoped<IZyAppContext, EmptyZyAppContext>();
             services.AddScoped(typeof(IEntityStore<>), typeof(EntityStore<>));
 
             return services;

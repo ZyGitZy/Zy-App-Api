@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Zy.User.Bll\Zy.User.Bll.csproj" />
     <ProjectReference Include="..\Zy.User.Dal\Zy.User.Dal.csproj" />
     <ProjectReference Include="..\Zy.User\Zy.User.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Profiles\" />
   </ItemGroup>
 
 </Project>
