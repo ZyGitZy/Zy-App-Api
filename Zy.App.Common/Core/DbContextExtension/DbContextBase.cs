@@ -36,6 +36,11 @@ namespace Zy.App.Common.Core.DbContextExtension
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        public void SetByzanContext(IZyAppContext byzanContext)
+        {
+            singlarContex = byzanContext;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = this.configuration.GetSection("ConnectionString").Value;

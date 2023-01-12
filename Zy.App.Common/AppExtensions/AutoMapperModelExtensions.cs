@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Zy.App.Common.Core.DbContextExtension;
 using Zy.App.Common.Interfaces;
 using Zy.App.Common.Models;
 using Zy.App.Common.StoreCore;
@@ -43,9 +45,9 @@ namespace Zy.App.Common.AppExtensions
 
         public static IServiceCollection AddLibScopModels(this IServiceCollection services)
         {
-            services.AddScoped<INoNormalizer, NoNormalizer>();
             services.AddScoped<IZyAppContext, EmptyZyAppContext>();
             services.AddScoped(typeof(IEntityStore<>), typeof(EntityStore<>));
+            services.AddScoped<INoNormalizer, NoNormalizer>();
 
             return services;
         }

@@ -14,6 +14,7 @@ namespace Zy.User.App.Profiles
         public UserDtoProfile()
         {
             this.CreateMap<UserDto, UserBo>().ReverseMap();
+            this.CreateMap<UserQueryDto, UserQueryBo>().ReverseMap();
         }
     }
 }

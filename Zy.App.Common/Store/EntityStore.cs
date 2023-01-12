@@ -12,9 +12,16 @@ namespace Zy.App.Common.StoreCore
 
         private readonly DbSet<TEntity> dataSet;
 
-        public EntityStore(DbContextBase dbContext)
+        public EntityStore(DbContext dbContext)
         {
             this.dbContext = dbContext;
+            this.dataSet = this.dbContext.Set<TEntity>();
+        }
+
+        public EntityStore(IZyAppContext zyAppContext, DbContextBase dbContext)
+        {
+            this.dbContext = dbContext;
+            dbContext.SetByzanContext(zyAppContext);
             this.dataSet = this.dbContext.Set<TEntity>();
         }
 

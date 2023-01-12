@@ -36,8 +36,8 @@ namespace Zy.Ids.App
         private static void AddScop(this IServiceCollection services)
         {
             services.AddDbContext<ZyIdsDbContext>();
-            services.AddScoped<DbContext, DbContextBase>();
             services.AddScoped<DbContextBase, ZyIdsDbContext>();
+            services.AddScoped(typeof(IZyIdsEntityStore<>), typeof(ZyIdsEntityStore<>));
         }
     }
 }

@@ -121,8 +121,8 @@ namespace Zy.User.Bll.Services
         public async Task<ServiceResult<QueryResult<UserBo>>> QueryAsync(UserQueryBo query)
         {
             var linq = this.userEntityStore.Query()
-                .WhereLike(w => w.UserName == query.UserName, !string.IsNullOrWhiteSpace(query.UserName))
-                .WhereLike(w => w.No == query.No, !string.IsNullOrWhiteSpace(query.No));
+                .WhereLike(w => w.UserName, query.UserName)
+                .WhereLike(w => w.No, query.No);
 
             var queryResult = new QueryResult<UserBo>(query);
             if (query.EnablePaging && query.Offset == null)
@@ -132,6 +132,8 @@ namespace Zy.User.Bll.Services
             }
 
             linq = query.IsSortable() ? linq.OrderByCustomer(query.SortExpression) : linq.OrderByDescending(o => o.LastUpdateDateTime);
+
+            linq = linq.Paging(query);
 
             var source = await linq.ToListAsync();
 

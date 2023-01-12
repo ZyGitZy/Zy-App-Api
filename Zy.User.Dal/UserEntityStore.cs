@@ -6,7 +6,7 @@ namespace Zy.User.Dal
 {
     public class UserEntityStore<TEntity> : EntityStore<TEntity>, IEntityStore<TEntity> where TEntity : class, IEntity
     {
-        public UserEntityStore(DbContextBase dbContext) : base(dbContext)
+        public UserEntityStore(ZyUserDbContext dbContext) : base(dbContext)
         {
         }
     }

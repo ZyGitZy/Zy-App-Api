@@ -65,7 +65,7 @@ namespace Zy.App.Common.Core.Controller
             {
                 var result = mapper.Map<IEnumerable<T>, IEnumerable<S>>(serviceResult.TData.Items);
 
-                QueryResult<S> queryResult = new QueryResult<S> { Count = count, Items = result };
+                QueryResult<S> queryResult = new() { Count = count, Items = result, Offset = serviceResult.TData.Offset, Limit = serviceResult.TData.Limit };
 
                 return controller.Ok(queryResult);
             }

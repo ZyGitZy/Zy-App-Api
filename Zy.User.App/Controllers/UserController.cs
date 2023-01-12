@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using Zy.User.Bll.Models;
 
 namespace Zy.User.App.Controllers
 {
+    [AllowAnonymous]
     public class UserController : ApiController
     {
         private readonly IMapper mapper;
