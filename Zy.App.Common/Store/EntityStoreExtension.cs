@@ -5,9 +5,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Interfaces;
 
-namespace Zy.App.Common.AppExtensions
+namespace Zy.App.Common.Store
 {
     public static class EntityStoreExtension
     {
@@ -37,7 +38,7 @@ namespace Zy.App.Common.AppExtensions
                     return false;
                 }
 
-                return (!(parameters3[0].ParameterType != typeof(string))) ? true : false;
+                return !(parameters3[0].ParameterType != typeof(string)) ? true : false;
             });
             StringEndsWithContainsMethodInfo = typeof(string).GetMethods().First(delegate (MethodInfo e)
             {
@@ -52,9 +53,9 @@ namespace Zy.App.Common.AppExtensions
                     return false;
                 }
 
-                return (!(parameters2[0].ParameterType != typeof(string))) ? true : false;
+                return !(parameters2[0].ParameterType != typeof(string)) ? true : false;
             });
-            ExpressionLambdaMethodInfo = typeof(Expression).GetMethods().First((MethodInfo x) => x.Name == "Lambda" && x.ContainsGenericParameters && x.GetParameters().Length == 2);
+            ExpressionLambdaMethodInfo = typeof(Expression).GetMethods().First((x) => x.Name == "Lambda" && x.ContainsGenericParameters && x.GetParameters().Length == 2);
             QueryableWhereMethodInfo = typeof(Queryable).GetMethods().FirstOrDefault(delegate (MethodInfo x)
             {
                 if (x.Name != "Where")
@@ -74,7 +75,7 @@ namespace Zy.App.Common.AppExtensions
                     return false;
                 }
 
-                return (!(parameterInfo.ParameterType.ToString() != "System.Linq.Expressions.Expression`1[System.Func`2[TSource,System.Boolean]]")) ? true : false;
+                return !(parameterInfo.ParameterType.ToString() != "System.Linq.Expressions.Expression`1[System.Func`2[TSource,System.Boolean]]") ? true : false;
             });
         }
 
@@ -106,14 +107,14 @@ namespace Zy.App.Common.AppExtensions
                 throw new Exception("StringContainsMethodInfo初始化失败");
             }
 
-            Expression expression2 = ((value.Length >= 2 &&
-                ((value.StartsWith("\"") && value.EndsWith("\"")) || (value.StartsWith("^") && value.EndsWith("$"))))
+            Expression expression2 = value.Length >= 2 &&
+                (value.StartsWith("\"") && value.EndsWith("\"") || value.StartsWith("^") && value.EndsWith("$"))
                 ? Expression.Equal(memberExpression2, Expression.Constant(value.Substring(1, value.Length - 2)))
-                : (value.Length > 1 && value.StartsWith("^")) ?
+                : value.Length > 1 && value.StartsWith("^") ?
                 Expression.Call(memberExpression2, StringStartsWithContainsMethodInfo,
-                Expression.Constant(value.Substring(1))) : ((value.Length <= 1 || !value.EndsWith("$")) ?
+                Expression.Constant(value.Substring(1))) : value.Length <= 1 || !value.EndsWith("$") ?
                 Expression.Call(memberExpression2, StringContainsMethodInfo, Expression.Constant(value))
-                : Expression.Call(memberExpression2, StringEndsWithContainsMethodInfo, Expression.Constant(value.Substring(0, value.Length - 1)))));
+                : Expression.Call(memberExpression2, StringEndsWithContainsMethodInfo, Expression.Constant(value.Substring(0, value.Length - 1)));
 
             object? obj = methodInfo.Invoke(null, new object[2]
             {
@@ -210,7 +211,7 @@ namespace Zy.App.Common.AppExtensions
             }
 
             Type type = typeof(Func<,>).MakeGenericType(typeFromHandle, property.PropertyType);
-            MethodInfo methodInfo = typeof(Expression).GetMethods().First((MethodInfo x) => x.Name == "Lambda" && x.ContainsGenericParameters && x.GetParameters().Length == 2).MakeGenericMethod(type);
+            MethodInfo methodInfo = typeof(Expression).GetMethods().First((x) => x.Name == "Lambda" && x.ContainsGenericParameters && x.GetParameters().Length == 2).MakeGenericMethod(type);
             ParameterExpression parameterExpression = Expression.Parameter(typeFromHandle);
             MemberExpression memberExpression = Expression.Property(parameterExpression, property);
             object obj = methodInfo.Invoke(null, new object[2]
@@ -218,7 +219,7 @@ namespace Zy.App.Common.AppExtensions
                 memberExpression,
                 new ParameterExpression[1] { parameterExpression }
             });
-            return (IQueryable<T>)typeof(Queryable).GetMethods().FirstOrDefault((MethodInfo x) => x.Name == (isDescending ? "OrderByDescending" : "OrderBy") && x.GetParameters().Length == 2).MakeGenericMethod(typeFromHandle, property.PropertyType)
+            return (IQueryable<T>)typeof(Queryable).GetMethods().FirstOrDefault((x) => x.Name == (isDescending ? "OrderByDescending" : "OrderBy") && x.GetParameters().Length == 2).MakeGenericMethod(typeFromHandle, property.PropertyType)
                 .Invoke(null, new object[2] { source, obj });
         }
     }
