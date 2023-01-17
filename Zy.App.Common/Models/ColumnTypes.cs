@@ -35,5 +35,7 @@ namespace Zy.App.Common.Models
         public const string Remark = "nvarchar(4000)";
 
         public const string Principal = "nvarchar(500)";
+
+        public const string Json = "json";
     }
 }
