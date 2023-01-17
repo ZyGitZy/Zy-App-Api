@@ -64,7 +64,7 @@ namespace Zy.App.Common.StoreCore
             return await this.dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public ValueTask<TEntity?> FindAsync(object[] keyValues, CancellationToken cancellationToken)
+        public ValueTask<TEntity?> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
             return this.dataSet.FindAsync(keyValues, cancellationToken);
         }

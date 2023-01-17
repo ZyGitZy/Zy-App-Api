@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Zy.App.Common\Zy.App.Common.csproj" />
+    <ProjectReference Include="..\Zy.Ids.Dal\Zy.Ids.Dal.csproj" />
+  </ItemGroup>
+
 </Project>

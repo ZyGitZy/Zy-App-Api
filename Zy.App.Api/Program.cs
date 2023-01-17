@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 IConfiguration configuration = builder.Configuration;
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddLibScopModels();
 
@@ -25,11 +25,11 @@ var app = builder.Build();
 
 app.UseIdentityServer();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 
 app.UseCors(prex =>
 {

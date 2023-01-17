@@ -2,17 +2,17 @@
     "profiles": {
         "Zy.App.Api": {
             "commandName": "Project",
-            "launchBrowser": true,
+            "launchBrowser": false,
             "launchUrl": "swagger",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "dotnetRunMessages": true,
-            "applicationUrl": "http://192.168.30.112:5126"
+            "applicationUrl": "http://192.168.249.6:5126"
         },
         "IIS Express": {
             "commandName": "IISExpress",
-            "launchBrowser": true,
+            "launchBrowser": false,
             "launchUrl": "swagger",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -20,7 +20,7 @@
         },
         "Docker": {
             "commandName": "Docker",
-            "launchBrowser": true,
+            "launchBrowser": false,
             "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
             "publishAllPorts": true
         }

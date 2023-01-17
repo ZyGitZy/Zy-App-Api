@@ -49,7 +49,7 @@ namespace Zy.App.Common.AppExtensions
 
         public static ServiceResult Ok(object? data = null)
         {
-            return new ServiceResult { Success = true, TData = data ?? default! };
+            return new ServiceResult { Success = true, TData = data ?? default };
         }
 
         public ServiceResult<T> As<T>()

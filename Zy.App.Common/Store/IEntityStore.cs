@@ -11,13 +11,13 @@ namespace Zy.App.Common.StoreCore
     {
         IQueryable<TEntity> Query(Expression<Func<TEntity, bool>>? query = null);
 
-        ValueTask<TEntity?> FindAsync(object[] keyValues, CancellationToken cancellationToken);
+        ValueTask<TEntity?> FindAsync(CancellationToken cancellationToke = default, params object[] keyValues);
 
-        Task<int> DeleteSaveAsync(TEntity entity, CancellationToken cancellationToken);
+        Task<int> DeleteSaveAsync(TEntity entity, CancellationToken cancellationToken = default);
 
-        Task<int> UpdateSaveAsync(TEntity entity, CancellationToken cancellationToken);
+        Task<int> UpdateSaveAsync(TEntity entity, CancellationToken cancellationToken = default);
 
-        Task<TEntity> CreateSaveAsync(TEntity entity, CancellationToken cancellationToken);
+        Task<TEntity> CreateSaveAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         void Delete(TEntity entity);
 
@@ -25,6 +25,6 @@ namespace Zy.App.Common.StoreCore
 
         TEntity Create(TEntity entity);
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
