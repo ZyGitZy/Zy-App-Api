@@ -9,11 +9,10 @@ namespace Zy.App.Common.Interfaces
 {
     public interface IServiceResult
     {
+        object? Data { get; set; }
 
-        public object? TData { get; set; }
+        IServiceProblemDetails? ProblemDetails { get; set; }
 
-        public IErrorDetail? ErrDetail { get; set; }
-
-        public bool Success { get; set; }
+        bool Success { get; set; }
     }
 }

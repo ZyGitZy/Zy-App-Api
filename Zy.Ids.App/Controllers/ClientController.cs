@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,13 +28,13 @@ namespace Zy.Ids.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ClientDto clientDto)
+        public async Task<IActionResult> Post([FromBody] ClientDto clientDto)
         {
             var bo = this.mapper.Map<ClientDto, ClientBo>(clientDto);
-
+            bo.ClientUri = $"{this.Request.Scheme}://{this.Request.Host}/.well-known/openid-configuration";
             var result = await this.clientService.PostAsync(bo);
 
-            return Ok(result);
+            return this.Result(result);
         }
 
         [HttpDelete("{id:long}")]
@@ -52,7 +53,7 @@ namespace Zy.Ids.App.Controllers
         {
             var result = await this.clientService.GetAsync(id);
 
-            return this.Ok(result);
+            return this.Result(result);
         }
 
         [HttpPut("{id:long}")]
@@ -62,7 +63,7 @@ namespace Zy.Ids.App.Controllers
 
             var result = await this.clientService.PutAsync(id, bo);
 
-            return this.Ok(result);
+            return this.Result(result);
         }
 
     }

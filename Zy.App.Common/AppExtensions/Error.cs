@@ -10,28 +10,38 @@ namespace Zy.App.Common.AppExtensions
     {
         public const char Split = '|';
 
-        public Error(string type, string detail) : this(string.Empty, type, detail)
-        {
+        public static readonly Error NoDuplicate = new Error(nameof(NoDuplicate), "编号重复", "{0}已经存在");
 
+        public static readonly Error NotFound = new Error(nameof(NotFound), "资源不存在", "{0}不存在");
+
+        public static readonly Error NotAllowedDelete = new Error(nameof(NotAllowedDelete), "禁止删除", "禁止删除{0}");
+
+        public static readonly Error NotAllowedEdit = new Error(nameof(NotAllowedEdit), "禁止修改", "禁止修改{0}");
+
+        public Error(string type)
+            : this(type, string.Empty)
+        {
         }
 
-        public Error(string detail) : this(string.Empty, string.Empty, detail)
+        public Error(string type, string title)
+            : this(type, title, string.Empty)
         {
-
         }
 
-        public Error(string title, string type, string detail)
+        public Error(string type, string title, string detail)
         {
-            this.Title = title;
             this.Type = type;
+
+            this.Title = title;
+
             this.Detail = detail;
         }
 
-        public string Title { get; set; } = string.Empty;
+        public string Type { get; set; }
 
-        public string Type { get; set; } = string.Empty;
+        public string Title { get; set; }
 
-        public string Detail { get; set; } = string.Empty;
+        public string Detail { get; set; }
 
         public static explicit operator Error(string error)
         {

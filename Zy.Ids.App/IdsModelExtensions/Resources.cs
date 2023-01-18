@@ -15,10 +15,10 @@ namespace Singnalr.DAL.IdentityExentions
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new[] {
-                new ApiResource("Signalr","学习"){
+                new ApiResource("Zy.Api","学习"){
                 UserClaims = new List<string>{ "user_name" },
                 ApiSecrets = {
-                new Secret("Signalr.secret".Sha256())
+                new Secret("Zy.Api.secret".Sha256())
                     }
                 }
                 };
@@ -41,7 +41,7 @@ namespace Singnalr.DAL.IdentityExentions
                 },
 
                 // 客户端有权访问的范围
-                AllowedScopes = { "Signalr" },
+                AllowedScopes = { "Zy.Api" },
                 AccessTokenLifetime = 120 //过期时间，默认3600秒
             }
        };

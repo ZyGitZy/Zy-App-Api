@@ -7,6 +7,7 @@ using Zy.App.Common.Models;
 
 namespace Zy.App.Common.AppExtensions
 {
+
     [DataContract]
     public class ServiceResult : IServiceResult
     {
@@ -15,41 +16,42 @@ namespace Zy.App.Common.AppExtensions
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public object? TData { get; set; }
+        public object? Data { get; set; }
 
-        public IErrorDetail? ErrDetail { get; set; }
-
-        public bool Success { get; set; }
+        public IServiceProblemDetails? ProblemDetails { get; set; }
 
         [DataMember(Order = 2)]
         [JsonIgnore]
-        public string ErrDetailString
+        public string ProblemDetailsString
         {
-            get => JsonConvert.SerializeObject(this.ErrDetail, this.jsonOptions);
+            get => JsonConvert.SerializeObject(this.ProblemDetails, this.jsonOptions);
 
-            set => this.ErrDetail =
-                JsonConvert.DeserializeObject<IErrorDetail>(value, this.jsonOptions) ?? default!;
+            set => this.ProblemDetails =
+                JsonConvert.DeserializeObject<IServiceProblemDetails>(value, this.jsonOptions) ?? default!;
         }
+
+        [DataMember(Order = 3)]
+        public bool Success { get; set; }
 
         public static implicit operator ServiceResult<long>(ServiceResult serviceResult) => serviceResult.As<long>();
 
-        public static ServiceResult Error(string type, string title = "", string detail = "")
+        public static ServiceResult Error(string type, string title = "", string detail = "", Exception? exception = null)
         {
             return new ServiceResult
             {
                 Success = false,
-                ErrDetail = new ErrorDetail(type, title, detail)
+                ProblemDetails = new ServiceProblemDetails(type, title, detail, exception)
             };
         }
 
-        public static ServiceResult Error(Error error)
+        public static ServiceResult Error(Error error, Exception? exception = null)
         {
-            return Error(error.Type, error.Title, error.Detail);
+            return Error(error.Type, error.Title, error.Detail, exception);
         }
 
         public static ServiceResult Ok(object? data = null)
         {
-            return new ServiceResult { Success = true, TData = data ?? default };
+            return new ServiceResult { Success = true, Data = data ?? default! };
         }
 
         public ServiceResult<T> As<T>()
@@ -57,13 +59,13 @@ namespace Zy.App.Common.AppExtensions
             var r = new ServiceResult<T>()
             {
                 Success = this.Success,
-                ErrDetail = this.ErrDetail,
-                TData = default!
+                ProblemDetails = this.ProblemDetails,
+                Data = default!
             };
 
-            if (this.TData != null && this.TData is T)
+            if (this.Data != null && this.Data is T)
             {
-                r.TData = (T)this.TData;
+                r.Data = (T)this.Data;
             }
 
             return r;

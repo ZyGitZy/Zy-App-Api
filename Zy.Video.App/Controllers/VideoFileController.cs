@@ -14,8 +14,8 @@ namespace Zy.Video.App.Controllers
 {
     public class VideoFileController : ApiController
     {
-        IVideoFileService service;
-        IMapper mapper;
+        readonly IVideoFileService service;
+        readonly IMapper mapper;
 
         public VideoFileController(IVideoFileService service, IMapper mapper)
         {
@@ -42,17 +42,17 @@ namespace Zy.Video.App.Controllers
         public async Task<IActionResult> DownloadFile(string path)
         {
             var result = await this.service.DownLoadFile(path);
-            if (result.Success && result.TData != null)
+            if (result.Success && result.Data != null)
             {
-                string fileName = result.TData.Name;
+                string fileName = result.Data.Name;
                 if (!string.IsNullOrWhiteSpace(fileName))
                 {
-                    fileName = fileName.Substring(fileName.LastIndexOf("\\") + 1);
+                    fileName = fileName[(fileName.LastIndexOf("\\") + 1)..];
                 }
-                return this.File(result.TData, "application/octet-stream", fileName);
+                return this.File(result.Data, "application/octet-stream", fileName);
             }
 
-            return this.Fail(result.ErrDetail?.Title ?? "", result.ErrDetail?.Message ?? "");
+            return this.Fail(result.ProblemDetails?.Title ?? "", result.ProblemDetails?.Detail ?? "");
         }
     }
 }

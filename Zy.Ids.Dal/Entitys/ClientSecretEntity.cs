@@ -11,7 +11,7 @@ using Zy.App.Common.Models;
 namespace Zy.Ids.DAL.Entitys
 {
     [Table("ZyIds.ClientSecret")]
-    public class ClientSecretEntity: EntityBase
+    public class ClientSecretEntity : EntityBase
     {
         /// <summary>
         /// 备注
@@ -19,7 +19,7 @@ namespace Zy.Ids.DAL.Entitys
         [Column(TypeName = ColumnTypes.Description)]
         [Required]
         [DefaultValue("")]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// 原始值
@@ -27,7 +27,7 @@ namespace Zy.Ids.DAL.Entitys
         [Column(TypeName = ColumnTypes.Remark)]
         [Required]
         [DefaultValue("")]
-        public string RawValue { get; set; }
+        public string RawValue { get; set; } = string.Empty;
 
         /// <summary>
         /// 加密值
@@ -35,7 +35,7 @@ namespace Zy.Ids.DAL.Entitys
         [Column(TypeName = ColumnTypes.Remark)]
         [Required]
         [DefaultValue("")]
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
         /// <summary>
         /// 
@@ -50,7 +50,7 @@ namespace Zy.Ids.DAL.Entitys
         [Column(TypeName = ColumnTypes.NVarchar500)]
         [Required]
         [DefaultValue("")]
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
 
         /// <summary>
         /// 

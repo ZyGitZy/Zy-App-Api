@@ -109,6 +109,8 @@ namespace Zy.Ids.Bll.Services
                 }
             }
 
+            await this.secretStore.SaveChangesAsync();
+
             return this.Ok(entity.Id);
 
         }
