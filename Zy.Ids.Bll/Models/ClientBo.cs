@@ -4,6 +4,8 @@ namespace Zy.Ids.Bll.Models
 {
     public class ClientBo : ResourceBo
     {
+        public string GrantType { get; set; } = string.Empty;
+
         public int ConsentLifetime { get; set; }
 
         public int AbsoluteRefreshTokenLifetime { get; set; }

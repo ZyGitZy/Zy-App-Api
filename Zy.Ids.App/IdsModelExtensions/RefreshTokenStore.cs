@@ -28,9 +28,10 @@ namespace Zy.Ids.App.IdsModelExtensions
 
 
 
-        public Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
+        public async Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
         {
-            throw new NotImplementedException();
+            var entities = await this.perStore.Query().ToListAsync();
+            return entities.Select(this.GetPersistedGrant);
         }
 
         public async Task<PersistedGrant> GetAsync(string key)
@@ -69,9 +70,9 @@ namespace Zy.Ids.App.IdsModelExtensions
             }
         }
 
-        public Task StoreAsync(PersistedGrant grant)
+        public async Task StoreAsync(PersistedGrant grant)
         {
-            return this.perStore.CreateSaveAsync(
+            await this.perStore.CreateSaveAsync(
                 new PersistedGrantEntity()
                 {
                     Key = grant.Key,

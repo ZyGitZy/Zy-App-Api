@@ -26,14 +26,24 @@ namespace Zy.Ids.Bll.Services
 
         private readonly IZyIdsEntityStore<ClientScopeEntity> scopStore;
 
+        private readonly IZyIdsEntityStore<ClientGrantTypeEntity> grantTypeStore;
+
         private readonly string tempName = "Client";
 
-        public ClientService(IMapper mapper, IZyIdsEntityStore<ClientEntity> clientStore, IZyIdsEntityStore<ClientSecretEntity> secretStore, IZyIdsEntityStore<ClientScopeEntity> scopStore)
+        readonly string grantType = "client_credentials";
+
+        public ClientService(IMapper mapper,
+            IZyIdsEntityStore<ClientGrantTypeEntity> grantTypeStore,
+            IZyIdsEntityStore<ClientEntity> clientStore,
+            IZyIdsEntityStore<ClientSecretEntity> secretStore,
+            IZyIdsEntityStore<ClientScopeEntity> scopStore
+            )
         {
             this.mapper = mapper;
             this.clientStore = clientStore;
             this.secretStore = secretStore;
             this.scopStore = scopStore;
+            this.grantTypeStore = grantTypeStore;
         }
 
         public async Task<ServiceResult> DeleteAsync(long id, ClientBo clientBo)
@@ -108,6 +118,12 @@ namespace Zy.Ids.Bll.Services
                     });
                 }
             }
+
+            this.grantTypeStore.Create(new()
+            {
+                ClientId = result.Id,
+                GrantType = string.IsNullOrWhiteSpace(clientBo.GrantType) ? clientBo.GrantType : this.grantType,
+            });
 
             await this.secretStore.SaveChangesAsync();
 

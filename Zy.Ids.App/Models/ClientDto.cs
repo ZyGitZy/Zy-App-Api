@@ -14,6 +14,8 @@ namespace Zy.Ids.App.Models
 {
     public class ClientDto : ResourceDto
     {
+        public string GrantType { get; set; } = string.Empty;
+
         public int ConsentLifetime { get; set; }
 
         public int AbsoluteRefreshTokenLifetime { get; set; }
