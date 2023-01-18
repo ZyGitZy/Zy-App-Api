@@ -17,13 +17,19 @@
         private static readonly MethodInfo StringEndsWithContainsMethodInfo;
         private static readonly MethodInfo StringStartsWithContainsMethodInfo;
         private static readonly MethodInfo ExpressionLambdaMethodInfo;
-        private static readonly MethodInfo QueryableWhereMethodInfo;
+        private static readonly MethodInfo? QueryableWhereMethodInfo;
         private static readonly MethodInfo? MySqlDbFuncJsonContainsMethodInfo;
         private static readonly string Space = " ";
 
         static QueryableExtensions()
         {
             StringContainsMethodInfo = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string), typeof(StringComparison) });
+
+            if (StringContainsMethodInfo == null) 
+            {
+                throw new Exception("未从string上获取到 Contains(string par,StringComparison par)方法");
+            }
+
             StringStartsWithContainsMethodInfo = typeof(string).GetMethods().First(e =>
             {
                 if (e.Name != nameof(string.StartsWith))
@@ -88,6 +94,12 @@
                 }
                 return true;
             });
+
+            if (QueryableWhereMethodInfo == null) 
+            {
+                throw new Exception("未从Queryable上获取到where方法");
+            }
+
             MySqlDbFuncJsonContainsMethodInfo = typeof(MySqlDbFunctions).GetMethod(nameof(MySqlDbFunctions.JsonContains));
 
         }
@@ -116,7 +128,7 @@
         {
             var sortExpression = orderBy == null || !orderBy.Any()
                 ? string.Empty
-                : string.Join(",", orderBy.Select(x => $"{x.Key} {x.Value.ToString()}"));
+                : string.Join(",", orderBy.Select(x => $"{x.Key} {x.Value}"));
 
             return source.OrderByCustomer(sortExpression, throwException);
         }
@@ -168,6 +180,11 @@
 
             ParameterExpression parametrExpression = Expression.Parameter(typeSource);
             PropertyInfo? propertyInfo = memberExpression?.Member as PropertyInfo;
+
+            if (propertyInfo == null)
+            {
+                throw new InvalidOperationException($"为获取到{typeof(TSource).Name}propertyInfo字段属性");
+            }
             MemberExpression propertyExpression = Expression.Property(parametrExpression, propertyInfo);
             Expression predicateExpression;
             var comparisonExpression = Expression.Constant(stringComparison);
@@ -178,7 +195,7 @@
             }
             else if (value.Length >= 2 && value.StartsWith("*") && value.EndsWith("*"))
             {
-                predicateExpression = Expression.Call(propertyExpression, StringContainsMethodInfo, Expression.Constant(value.Substring(1, value.Length - 2)), comparisonExpression);
+                predicateExpression = Expression.Call(propertyExpression, StringContainsMethodInfo!, Expression.Constant(value.Substring(1, value.Length - 2)), comparisonExpression);
             }
             else if (value.Length > 1 && value.StartsWith("*") && !value.EndsWith("*"))
             {
@@ -190,12 +207,12 @@
             }
             else
             {
-                predicateExpression = Expression.Call(propertyExpression, StringContainsMethodInfo, Expression.Constant(value), comparisonExpression);
+                predicateExpression = Expression.Call(propertyExpression, StringContainsMethodInfo!, Expression.Constant(value), comparisonExpression);
             }
 
             object? predicateLambda = lambdaBuilder.Invoke(null, new object[] { predicateExpression, new[] { parametrExpression } });
 
-            MethodInfo where = QueryableWhereMethodInfo.MakeGenericMethod(typeSource);
+            MethodInfo where = QueryableWhereMethodInfo!.MakeGenericMethod(typeSource);
 
             return (IQueryable<TSource>)(where.Invoke(null, new[] { source, predicateLambda }) ?? source);
         }
@@ -216,7 +233,14 @@
 
             ParameterExpression parameterExpression = Expression.Parameter(typeSource);
             PropertyInfo? propertyInfo = memberExpression?.Member as PropertyInfo;
+
+            if (propertyInfo == null)
+            {
+                throw new InvalidOperationException($"为获取到{typeof(TSource).Name}propertyInfo字段属性");
+            }
+
             MemberExpression propertyExpression = Expression.Property(parameterExpression, propertyInfo);
+
             BinaryExpression? lessThanExpression = null;
             BinaryExpression? greaterThanExpression = null;
             if (value.From != DateTime.MinValue)
@@ -243,7 +267,7 @@
 
             object? predicateLambda = lambdaBuilder.Invoke(null, new object?[] { finalExpression, new[] { parameterExpression } });
 
-            MethodInfo where = QueryableWhereMethodInfo.MakeGenericMethod(typeSource);
+            MethodInfo where = QueryableWhereMethodInfo!.MakeGenericMethod(typeSource);
 
             return (IQueryable<TSource>)(where.Invoke(null, new[] { source, predicateLambda }) ?? source);
         }
@@ -264,6 +288,10 @@
 
             ParameterExpression parameterExpression = Expression.Parameter(typeSource);
             PropertyInfo? propertyInfo = memberExpression?.Member as PropertyInfo;
+            if (propertyInfo == null)
+            {
+                throw new InvalidOperationException($"为获取到{typeof(TSource).Name}propertyInfo字段属性");
+            }
             MemberExpression propertyExpression = Expression.Property(parameterExpression, propertyInfo);
 
             BinaryExpression? lessThanExpression = null;
@@ -290,7 +318,7 @@
 
             object? predicateLambda = lambdaBuilder.Invoke(null, new object?[] { finialExpression, new[] { parameterExpression } });
 
-            MethodInfo where = QueryableWhereMethodInfo.MakeGenericMethod(typeSource);
+            MethodInfo where = QueryableWhereMethodInfo!.MakeGenericMethod(typeSource);
 
             return (IQueryable<TSource>)(where.Invoke(null, new[] { source, predicateLambda }) ?? source);
         }
@@ -333,6 +361,12 @@
                 {
                     throw new ArgumentNullException("暂不支持Json类型数据");
                 }
+
+                if (propertyInfo == null)
+                {
+                    throw new InvalidOperationException($"为获取到{typeof(TSource).Name}propertyInfo字段属性");
+                }
+
                 MemberExpression propertyExpression = Expression.Property(parameterExpression, propertyInfo);
 
                 ConstantExpression compareConstantExpression = Expression.Constant(StringComparison.OrdinalIgnoreCase, typeof(StringComparison));
@@ -340,7 +374,7 @@
 
                 foreach (var value in values)
                 {
-                    MethodCallExpression containsExpression = Expression.Call(propertyExpression, StringContainsMethodInfo, Expression.Constant(value), compareConstantExpression);
+                    MethodCallExpression containsExpression = Expression.Call(propertyExpression, StringContainsMethodInfo!, Expression.Constant(value), compareConstantExpression);
                     predicateExpression = (predicateExpression == null) ? containsExpression as Expression : Expression.And(predicateExpression, containsExpression);
                 }
                 predicateExpressions.Add(predicateExpression!);
@@ -353,7 +387,7 @@
 
             object? predicateLambda = lambdaBuilder.Invoke(null, new object?[] { resultExpression, new[] { parameterExpression } });
 
-            MethodInfo where = QueryableWhereMethodInfo.MakeGenericMethod(typeSource);
+            MethodInfo where = QueryableWhereMethodInfo!.MakeGenericMethod(typeSource);
 
             return (IQueryable<TSource>)(where.Invoke(null, new[] { source, predicateLambda }) ?? source);
         }
@@ -395,6 +429,10 @@
 
             ParameterExpression parameterExpression = Expression.Parameter(typeSource);
             PropertyInfo? propertyInfo = memberExpression?.Member as PropertyInfo;
+            if (propertyInfo == null)
+            {
+                throw new InvalidOperationException($"为获取到{typeof(TSource).Name}propertyInfo字段属性");
+            }
             MemberExpression propertyExpression = Expression.Property(parameterExpression, propertyInfo);
 
             Expression entityOrCondition = Expression.Equal(Expression.Constant(1), Expression.Constant(2));
@@ -402,13 +440,13 @@
             {
                 var itemJson = JsonSerializer.Serialize(item);
                 ConstantExpression itemValue = Expression.Constant(itemJson, typeof(string));
-                Expression jsonContains = Expression.Call(null, typeof(MySqlDbFunctions).GetMethod("JsonContains"), propertyExpression, itemValue);
+                Expression jsonContains = Expression.Call(null, typeof(MySqlDbFunctions).GetMethod("JsonContains")!, propertyExpression, itemValue);
                 entityOrCondition = Expression.Or(entityOrCondition, Expression.Equal(jsonContains, Expression.Constant("1")));
             }
 
             object? predicateLambda = lambdaBuilder.Invoke(null, new object?[] { entityOrCondition, new[] { parameterExpression } });
 
-            MethodInfo where = QueryableWhereMethodInfo.MakeGenericMethod(typeSource);
+            MethodInfo where = QueryableWhereMethodInfo!.MakeGenericMethod(typeSource);
 
             return (IQueryable<TSource>)(where.Invoke(null, new[] { source, predicateLambda }) ?? source);
 
@@ -513,7 +551,7 @@
                 var conditionExpression = Expression.Condition(equalExpression, ifTrue, ifFalse);
                 return conditionExpression;
             });
-            return Expression.Lambda<Func<TSource, int>>(lambdaExpression, keySelector.Parameters);
+            return Expression.Lambda<Func<TSource, int>>(lambdaExpression!, keySelector.Parameters);
         }
 
         private static IQueryable<T> OrderByCustomerInternal<T>(this IQueryable<T> source, string sortExpression, bool throwException, bool thenBy)
@@ -695,7 +733,7 @@
 
             MethodInfo sorter = typeof(Queryable).GetMethods()
                 .FirstOrDefault(
-                    x => x.Name == orderByMethodName && x.GetParameters().Length == 2)
+                    x => x.Name == orderByMethodName && x.GetParameters().Length == 2)!
                 .MakeGenericMethod(type, prop.PropertyType);
 
             return (IQueryable<T>?)sorter.Invoke(null, new[] { source, sortLambda });
