@@ -23,6 +23,14 @@ mvc.AddVideoServiceModule();
 
 var app = builder.Build();
 
+app.UseCors(policy =>
+{
+    policy.AllowAnyOrigin();
+    policy.AllowAnyHeader();
+    policy.AllowAnyMethod();
+    policy.WithExposedHeaders("*");
+});
+
 app.UseIdentityServer();
 
 //if (app.Environment.IsDevelopment())
@@ -30,15 +38,6 @@ app.UseIdentityServer();
 //    app.UseSwagger();
 //    app.UseSwaggerUI();
 //}
-
-app.UseCors(prex =>
-{
-    prex.AllowAnyHeader();
-    prex.AllowAnyMethod();
-    prex.AllowAnyOrigin();
-    prex.WithExposedHeaders("*");
-});
-
 
 app.UseAuthorization();
 

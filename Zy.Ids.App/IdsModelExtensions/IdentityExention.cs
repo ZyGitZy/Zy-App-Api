@@ -26,16 +26,16 @@ namespace Zy.Ids.App.IdsModelExtensions
             AddSocp(service);
             AddIdentityModel(service, opt => configuration.GetSection(selectName).Bind(opt));
             service.AddIdentityServer()
-             .AddDeveloperSigningCredential()
+            .AddRedirectUriValidator<RedirectUrlValidator>()
+            .AddDeveloperSigningCredential()
+            .AddInMemoryIdentityResources(Resources.GetIdentityResources())
             .AddInMemoryApiResources(Resources.GetApiResources())
             //.AddInMemoryClients(Resources.Clients)
-            .AddInMemoryIdentityResources(Resources.GetIdentityResources())
-            .AddRedirectUriValidator<RedirectUrlValidator>()
-            .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
             .AddClientStore<ClientStore>()
             .AddPersistedGrantStore<RefreshTokenStore>()
             .AddAspNetIdentity<UserEntity>()
-            .AddTestUsers(TestUsers.Users)
+            .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+            //.AddTestUsers(TestUsers.Users)
             .Services.AddTransient<IdentityServer4.ResponseHandling.IUserInfoResponseGenerator, UserInfoResponseGenerator>()
             .AddTransient<IdentityServer4.ResponseHandling.IIntrospectionResponseGenerator, IntrospectionResponseGenerator>();
 
@@ -49,7 +49,7 @@ namespace Zy.Ids.App.IdsModelExtensions
             {
                 options.Authority = authority;
                 options.RequireHttpsMetadata = false;
-                options.Audience = "Signalr";
+                options.Audience = "Zy.Api";
             });
 
             // 策略 可以限制满足某些需求后才能通过

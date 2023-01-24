@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using IdentityServer4.Services;
 using IdentityServer4.Events;
 using Zy.User.DAL.Entitys;
+using IdentityModel;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Singnalr.DAL.IdentityExentions
 {
@@ -82,6 +84,8 @@ namespace Singnalr.DAL.IdentityExentions
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
                 return;
             }
+
+            context.Result = new GrantValidationResult(user.Id.ToString(), OidcConstants.AuthenticationMethods.Password);
         }
     }
 
