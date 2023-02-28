@@ -11,7 +11,7 @@ using Zy.Ids.Dal;
 namespace Zy.App.Api.Migrations.ZyIds
 {
     [DbContext(typeof(ZyIdsDbContext))]
-    [Migration("20230110091114_ZyIdsV001")]
+    [Migration("20230228063850_ZyIdsV001")]
     partial class ZyIdsV001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

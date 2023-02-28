@@ -44,6 +44,8 @@ namespace Zy.App.Api.Migrations.ZyUser
                     CreateDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     LastUpdateByUserId = table.Column<long>(type: "bigint", nullable: false),
                     LastUpdateDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     UserName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "longtext", nullable: true)

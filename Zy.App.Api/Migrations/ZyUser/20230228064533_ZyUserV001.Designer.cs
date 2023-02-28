@@ -11,7 +11,7 @@ using Zy.User.Dal;
 namespace Zy.App.Api.Migrations.ZyUser
 {
     [DbContext(typeof(ZyUserDbContext))]
-    [Migration("20230110090952_ZyUserV001")]
+    [Migration("20230228064533_ZyUserV001")]
     partial class ZyUserV001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,6 +129,10 @@ namespace Zy.App.Api.Migrations.ZyUser
                         .HasColumnType("longtext");
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("PasswordHash")
