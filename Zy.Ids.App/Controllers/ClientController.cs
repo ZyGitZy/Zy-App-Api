@@ -14,6 +14,7 @@ using Zy.Ids.Bll.Models;
 
 namespace Zy.Ids.App.Controllers
 {
+    [Route("[controller]")]
     [AllowAnonymous]
     public class ClientController : ApiController
     {

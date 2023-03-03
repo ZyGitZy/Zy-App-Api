@@ -14,6 +14,8 @@ namespace Zy.Ids.App.Profiles
         public ClientAppProfile()
         {
             this.CreateMap<ClientDto, ClientBo>().ReverseMap();
+            this.CreateMap<GenerateTokenDto, GenerateTokenBo>();
+            this.CreateMap<GenerateTokenQueryDto, GenerateTokenQueryBo>();
         }
     }
 }

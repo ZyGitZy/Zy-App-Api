@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Zy.App.Common\Zy.App.Common.csproj" />
     <ProjectReference Include="..\Zy.Ids.Dal\Zy.Ids.Dal.csproj" />
+    <ProjectReference Include="..\Zy.User.Dal\Zy.User.Dal.csproj" />
   </ItemGroup>
 
 </Project>

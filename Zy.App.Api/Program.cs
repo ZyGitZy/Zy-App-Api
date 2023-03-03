@@ -3,44 +3,22 @@ using Zy.User.App;
 using Zy.Video.App;
 using Zy.Ids.App;
 using Zy.App.Common.AppExtensions;
+using Zy.App.Api;
+using NLog.Extensions.Hosting;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-
-IConfiguration configuration = builder.Configuration;
-
-builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
-builder.Services.AddLibScopModels();
-
-var mvc = builder.Services.AddMvc();
-
-mvc.AddIdsModel(configuration);
-mvc.AddUserModel();
-mvc.AddVideoServiceModule();
-
-var app = builder.Build();
-
-app.UseCors(policy =>
+public class Program
 {
-    policy.AllowAnyOrigin();
-    policy.AllowAnyHeader();
-    policy.AllowAnyMethod();
-    policy.WithExposedHeaders("*");
-});
+    public static void Main(string[] args)
+    {
+        CreateWebHostBuilder(args).Build().Run();
+    }
 
-app.UseIdentityServer();
+    public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(builder =>
+        {
+            builder.UseStartup<Startup>();
+        }).UseNLog();
 
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
+}
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

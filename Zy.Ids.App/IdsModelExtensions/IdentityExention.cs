@@ -52,6 +52,8 @@ namespace Zy.Ids.App.IdsModelExtensions
                 options.Audience = "Zy.Api";
             });
 
+            service.AddAuthorization();
+
             // 策略 可以限制满足某些需求后才能通过
             //service.AddAuthorization(opt =>
             //{
@@ -72,12 +74,11 @@ namespace Zy.Ids.App.IdsModelExtensions
             //    options.ApiName = "Signalr";
             //    options.ApiSecret = "Signalr.secret";
             //});
-
-
+            
             return service;
         }
 
-        private static void AddIdentityModel(IServiceCollection service, Action<IdentityOptions> action)
+        public static void AddIdentityModel(IServiceCollection service, Action<IdentityOptions> action)
         {
             IdentityOptions identityOptions = new();
             action.Invoke(identityOptions);

@@ -13,7 +13,8 @@ using Zy.User.Bll.Models;
 
 namespace Zy.User.App.Controllers
 {
-    [AllowAnonymous]
+    [Route("[controller]")]
+    [Authorize]
     public class UserController : ApiController
     {
         private readonly IMapper mapper;

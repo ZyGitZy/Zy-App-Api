@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +17,13 @@ using Zy.User.Bll.Interfaces;
 using Zy.User.Bll.Profiles;
 using Zy.User.Bll.Services;
 using Zy.User.Dal;
+using Zy.User.DAL.Entitys;
 
 namespace Zy.User.App
 {
     public static class UserModelExtension
     {
-        public static IMvcBuilder AddUserModel(this IMvcBuilder mvcBuilder)
+        public static IMvcCoreBuilder AddUserModel(this IMvcCoreBuilder mvcBuilder)
         {
             mvcBuilder.Services.AddScop();
             AddControllers(mvcBuilder);
@@ -33,7 +35,7 @@ namespace Zy.User.App
             return mvcBuilder;
         }
 
-        private static void AddControllers(IMvcBuilder builder)
+        private static void AddControllers(IMvcCoreBuilder builder)
         {
             builder.AddApplicationPart(typeof(UserController).Assembly);
         }

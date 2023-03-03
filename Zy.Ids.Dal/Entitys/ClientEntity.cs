@@ -116,8 +116,11 @@ namespace Zy.Ids.DAL.Entitys
         [DefaultValue(false)]
         public bool RequireClientSecret { get; set; }
 
+        /// <summary>
+        /// 是否允许刷新token
+        /// </summary>
         [Required]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool AllowOfflineAccess { get; set; }
 
         [Required]

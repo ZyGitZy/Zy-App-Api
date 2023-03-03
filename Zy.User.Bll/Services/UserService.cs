@@ -22,14 +22,13 @@ namespace Zy.User.Bll.Services
     {
         private readonly IPasswordHasher<UserEntity> _passwordHasher;
         private readonly UserManager<UserEntity> userManager;
-        private readonly SignInManager<UserEntity> _signInManager;
         private readonly UserEntityStore<UserEntity> userEntityStore;
         private readonly INoNormalizer noNormalizer;
         private readonly IMapper mapper;
         private readonly string userTemp = "用户";
         private readonly IZyAppContext zyAppContext;
 
-        public UserService(UserEntityStore<UserEntity> userEntityStore, SignInManager<UserEntity> _signInManager, UserManager<UserEntity> userManager, IZyAppContext zyAppContext, INoNormalizer noNormalizer, IMapper mapper, IPasswordHasher<UserEntity> _passwordHasher)
+        public UserService(UserEntityStore<UserEntity> userEntityStore, UserManager<UserEntity> userManager, IZyAppContext zyAppContext, INoNormalizer noNormalizer, IMapper mapper, IPasswordHasher<UserEntity> _passwordHasher)
         {
             this._passwordHasher = _passwordHasher;
             this.noNormalizer = noNormalizer;
@@ -37,7 +36,6 @@ namespace Zy.User.Bll.Services
             this.zyAppContext = zyAppContext;
             this.userManager = userManager;
             this.userEntityStore = userEntityStore;
-            this._signInManager = _signInManager;
         }
 
         public async Task<ServiceResult> DeleteAsync(long id)
