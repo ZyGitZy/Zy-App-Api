@@ -4,20 +4,14 @@ using IdentityServer4.Stores;
 using IdentityServer4.Test;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Singnalr.DAL.IdentityExentions;
 using System.Security.Claims;
-using System.Text;
-using Zy.App.Common.Core.AppAbstractions.AppAbstractionsOptions;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
-using Zy.App.Common.Models;
 using Zy.User.Dal;
 using Zy.User.DAL.Entitys;
-using static System.Net.WebRequestMethods;
 
 namespace Zy.Ids.App.IdsModelExtensions
 {
@@ -31,7 +25,7 @@ namespace Zy.Ids.App.IdsModelExtensions
             AddIdentityModel(service, opt => configuration.GetSection(selectName).Bind(opt));
             service.AddIdentityServer()
             .AddRedirectUriValidator<RedirectUrlValidator>()
-            .AddDeveloperSigningCredential()
+            .AddDeveloperSigningCredential(true, "./tempkey.rsa")
             .AddInMemoryIdentityResources(Resources.GetIdentityResources())
             .AddInMemoryApiResources(Resources.GetApiResources())
             //.AddInMemoryClients(Resources.Clients)
@@ -78,7 +72,7 @@ namespace Zy.Ids.App.IdsModelExtensions
             //    options.ApiName = "Signalr";
             //    options.ApiSecret = "Signalr.secret";
             //});
-            
+
             return mvcBuilder;
         }
 
