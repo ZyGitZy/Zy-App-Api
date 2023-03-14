@@ -72,9 +72,9 @@ namespace Zy.Ids.Bll.Services
             var result = new GenerateTokenBo
             {
                 Access_token = token,
-                Token_type = "password",
+                Token_type = "Bearer",
                 Refresh_token = resToken,
-                Expires_in = (exp2 - exp).TotalMilliseconds.ToString()
+                Expires_in = (exp2 - exp).TotalSeconds.ToString()
             };
 
             return this.Ok(result);
