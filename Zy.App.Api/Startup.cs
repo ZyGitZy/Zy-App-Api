@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Core.App.Abstractions;
+using Zy.App.Common.Core.ApplicationBuilderExtensions;
 using Zy.App.Common.Models;
 using Zy.Ids.App;
 using Zy.Ids.App.JwtModelExtensions;
@@ -37,23 +38,7 @@ namespace Zy.App.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            app.UseCors(policy =>
-            {
-                policy.AllowAnyOrigin();
-                policy.AllowAnyHeader();
-                policy.AllowAnyMethod();
-                policy.WithExposedHeaders("*");
-            });
-
-            app.UseIdentityServer();
-            app.UseAuthentication();
-
-            app.UseAuthorization();
-
-
-            app.UseEndpoints(e => e.MapDefaultControllerRoute());
+            app.UseZyApplicationBuilder();
 
         }
     }
