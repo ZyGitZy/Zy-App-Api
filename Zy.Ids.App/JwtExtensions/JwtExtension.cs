@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.Ids.App.JwtModelExtensions.JwtModelExtensionOptions;
 using Zy.User.Dal;
 using Zy.User.DAL.Entitys;
@@ -16,7 +17,7 @@ namespace Zy.Ids.App.JwtModelExtensions
 {
     public static class JwtExtension
     {
-        public static JwtExtensionBuilder AddJwt(this IServiceCollection service, IConfiguration configuration, string sectionKey = "JwtOption")
+        public static JwtExtensionBuilder AddJwt(this IZyMvcBuilder service, IConfiguration configuration, string sectionKey = "JwtOption")
         {
             return AddJwt(service, option =>
              {
@@ -24,13 +25,13 @@ namespace Zy.Ids.App.JwtModelExtensions
              });
         }
 
-        public static JwtExtensionBuilder AddJwt(this IServiceCollection service, Action<JwtExtensionOption> option)
+        public static JwtExtensionBuilder AddJwt(this IZyMvcBuilder service, Action<JwtExtensionOption> option)
         {
             var jwtOption = new JwtExtensionOption();
 
             option.Invoke(jwtOption);
 
-            var builder = new JwtExtensionBuilder(service, jwtOption);
+            var builder = new JwtExtensionBuilder(service.Services, jwtOption);
 
             builder.AddAuthentication(e => e.Apply(builder.Option));
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Zy.App.Common.AppExtensions;
+using Zy.App.Common.Core.App.Abstractions;
 using Zy.App.Common.Models;
 using Zy.Ids.App;
 using Zy.Ids.App.JwtModelExtensions;
@@ -20,13 +21,13 @@ namespace Zy.App.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-            services.AddLibScopModels();
-            var mvc = services.AddMvcCore().AddApiExplorer();
-            //mvc.AddJwtModel(Configuration);
-            mvc.AddIdsModel(Configuration);
-            mvc.AddUserModel();
-            mvc.AddVideoServiceModule();
+            var builder = services.AddZyMvcBuilder().AddLibScopModels();
+
+            builder.AddIdsModel(this.Configuration)
+                .AddUserModel()
+                .AddVideoServiceModule()
+                .BuildModules();
+
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)

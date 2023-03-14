@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Core.DbContextExtension;
 using Zy.App.Common.Interfaces;
 using Zy.App.Common.Models;
@@ -16,7 +17,7 @@ namespace Zy.App.Common.AppExtensions
 {
     public static class AutoMapperModelExtensions
     {
-        public static IServiceCollection AddAutoMapperModule(this IServiceCollection services, List<Assembly> autoAssemblies, Action<IServiceProvider, IMapperConfigurationExpression>? mapperConfig = null)
+        public static IServiceCollection AddAutoMapperModule(this IServiceCollection services, IEnumerable<Assembly> autoAssemblies, Action<IServiceProvider, IMapperConfigurationExpression>? mapperConfig = null)
         {
             services.AddAutoMapper((sp, mapConfig) =>
             {
@@ -43,11 +44,11 @@ namespace Zy.App.Common.AppExtensions
             return services;
         }
 
-        public static IServiceCollection AddLibScopModels(this IServiceCollection services)
+        public static IZyMvcBuilder AddLibScopModels(this IZyMvcBuilder services)
         {
-            services.AddScoped<IZyAppContext, EmptyZyAppContext>();
-            services.AddScoped(typeof(IEntityStore<>), typeof(EntityStore<>));
-            services.AddScoped<INoNormalizer, NoNormalizer>();
+            services.Services.AddScoped<IZyAppContext, EmptyZyAppContext>();
+            services.Services.AddScoped(typeof(IEntityStore<>), typeof(EntityStore<>));
+            services.Services.AddScoped<INoNormalizer, NoNormalizer>();
 
             return services;
         }

@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Zy.App.Common.AppExtensions;
+using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Core.DbContextExtension;
 using Zy.Ids.App.Controllers;
 using Zy.Ids.App.JwtModelExtensions;
@@ -16,32 +9,29 @@ using Zy.Ids.Bll.Interfaces;
 using Zy.Ids.Bll.Profiles;
 using Zy.Ids.Bll.Services;
 using Zy.Ids.Dal;
-using Zy.User.DAL.Entitys;
 
 namespace Zy.Ids.App
 {
     public static class JwtModelExtension
     {
-        public static IMvcCoreBuilder AddJwtModel(this IMvcCoreBuilder mvcBuilder, IConfiguration configuration)
+        public static IZyMvcBuilder AddJwtModel(this IZyMvcBuilder mvcBuilder, IConfiguration configuration)
         {
-            AddScop(mvcBuilder.Services);
-            mvcBuilder.Services.AddJwt(configuration);
-            mvcBuilder.Services.AddAutoMapperModule(new List<Assembly>
+            mvcBuilder.AddJwt(configuration);
+            mvcBuilder.AddModules(m =>
             {
-                typeof(ClientAppProfile).Assembly,
-                typeof(ClientBllProfile).Assembly
+                m.AddAutoMapper(typeof(ClientAppProfile).Assembly);
+                m.AddAutoMapper(typeof(ClientBllProfile).Assembly);
+                m.AddController(typeof(ClientController).Assembly);
+                m.AddService();
             });
-            AddControllers(mvcBuilder);
+           
             return mvcBuilder;
         }
 
-        private static void AddControllers(IMvcCoreBuilder builder)
+        private static void AddService(this IZyMvcModuleBuilder mvcBuilder)
         {
-            builder.AddApplicationPart(typeof(ClientController).Assembly);
-        }
+            var services = mvcBuilder.Services;
 
-        private static void AddScop(this IServiceCollection services)
-        {
             services.AddDbContext<ZyIdsDbContext>();
             services.AddScoped<DbContextBase, ZyIdsDbContext>();
             services.AddScoped(typeof(IZyIdsEntityStore<>), typeof(ZyIdsEntityStore<>));

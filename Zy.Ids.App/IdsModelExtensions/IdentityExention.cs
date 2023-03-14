@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using Singnalr.DAL.IdentityExentions;
 using System.Security.Claims;
 using System.Text;
+using Zy.App.Common.Core.AppAbstractions.AppAbstractionsOptions;
+using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Models;
 using Zy.User.Dal;
 using Zy.User.DAL.Entitys;
@@ -21,8 +23,10 @@ namespace Zy.Ids.App.IdsModelExtensions
 {
     public static class IdentityExention
     {
-        public static IServiceCollection AddIdentityServiceModel(this IServiceCollection service, IConfiguration configuration, string selectName = "IdentityOptions")
+        public static IZyMvcBuilder AddIdentityServiceModel(this IZyMvcBuilder mvcBuilder, IConfiguration configuration, string selectName = "IdentityOptions")
         {
+            var service = mvcBuilder.Services;
+
             AddSocp(service);
             AddIdentityModel(service, opt => configuration.GetSection(selectName).Bind(opt));
             service.AddIdentityServer()
@@ -75,7 +79,7 @@ namespace Zy.Ids.App.IdsModelExtensions
             //    options.ApiSecret = "Signalr.secret";
             //});
             
-            return service;
+            return mvcBuilder;
         }
 
         public static void AddIdentityModel(IServiceCollection service, Action<IdentityOptions> action)

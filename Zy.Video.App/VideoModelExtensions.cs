@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Zy.App.Common.AppExtensions;
+using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Interfaces;
 using Zy.App.Common.Models;
 using Zy.Video.App.Controllers;
@@ -19,25 +20,22 @@ namespace Zy.Video.App
 {
     public static class VideoModelExtensions
     {
-        public static IMvcCoreBuilder AddVideoServiceModule(this IMvcCoreBuilder mvcBuilder, Action<IServiceProvider, IMapperConfigurationExpression>? mapperConfig = null)
+        public static IZyMvcBuilder AddVideoServiceModule(this IZyMvcBuilder mvcBuilder, Action<IServiceProvider, IMapperConfigurationExpression>? mapperConfig = null)
         {
-            AddControllers(mvcBuilder);
-            AddScop(mvcBuilder.Services);
-            mvcBuilder.Services.AddAutoMapperModule(new List<Assembly>
+
+            mvcBuilder.AddModules(m =>
             {
-                typeof(VideoFileProfileDto).Assembly
+                m.AddAutoMapper(typeof(VideoFileProfileDto).Assembly);
+                m.AddController(typeof(VideoFileController).Assembly);
+                m.AddService();
             });
+
             return mvcBuilder;
         }
 
-        public static void AddControllers(IMvcCoreBuilder builder)
+        private static void AddService(this IZyMvcModuleBuilder services)
         {
-            builder.AddApplicationPart(typeof(VideoFileController).Assembly);
-        }
-
-        public static void AddScop(IServiceCollection services)
-        {
-            services.AddScoped<IVideoFileService, VideoFileService>();
+            services.Services.AddScoped<IVideoFileService, VideoFileService>();
         }
     }
 }

@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Zy.App.Common.AppExtensions;
+using Zy.App.Common.Core.App.Abstractions;
+using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.StoreCore;
 using Zy.User.App.Controllers;
 using Zy.User.App.Profiles;
@@ -23,25 +25,22 @@ namespace Zy.User.App
 {
     public static class UserModelExtension
     {
-        public static IMvcCoreBuilder AddUserModel(this IMvcCoreBuilder mvcBuilder)
+        public static IZyMvcBuilder AddUserModel(this IZyMvcBuilder mvcBuilder)
         {
-            mvcBuilder.Services.AddScop();
-            AddControllers(mvcBuilder);
-            mvcBuilder.Services.AddAutoMapperModule(new List<Assembly>
+            mvcBuilder.AddModules(m =>
             {
-                typeof(UserDtoProfile).Assembly,
-                typeof(UserBoProfile).Assembly
+                m.AddServices();
+                m.AddAutoMapper(typeof(UserDtoProfile).Assembly);
+                m.AddAutoMapper(typeof(UserBoProfile).Assembly);
+                m.AddController(typeof(UserController).Assembly);
             });
+
             return mvcBuilder;
         }
 
-        private static void AddControllers(IMvcCoreBuilder builder)
+        private static void AddServices(this IZyMvcModuleBuilder mvcbuilder)
         {
-            builder.AddApplicationPart(typeof(UserController).Assembly);
-        }
-
-        private static void AddScop(this IServiceCollection services)
-        {
+            var services = mvcbuilder.Services;
             services.AddDbContext<ZyUserDbContext>();
             services.AddScoped(typeof(EntityStore<>), typeof(UserEntityStore<>));
             services.AddScoped(typeof(UserEntityStore<>), typeof(UserEntityStore<>));
