@@ -13,7 +13,6 @@ using Zy.User.Bll.Models;
 
 namespace Zy.User.App.Controllers
 {
-    [Route("[controller]")]
     [Authorize]
     public class UserController : ApiController
     {

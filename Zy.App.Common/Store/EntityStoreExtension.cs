@@ -1,5 +1,6 @@
 ﻿namespace Byzan.Biz.Abstractions
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,7 @@
     using Zy.App.Common.AppExtensions;
     using Zy.App.Common.Interfaces;
     using Zy.App.Common.Models;
+    using Zy.App.Common.StoreCore;
 
     public static class QueryableExtensions
     {
@@ -102,6 +104,24 @@
 
             MySqlDbFuncJsonContainsMethodInfo = typeof(MySqlDbFunctions).GetMethod(nameof(MySqlDbFunctions.JsonContains));
 
+        }
+
+        public static async ValueTask<IEnumerable<T>> FindByIdsAsync<T>(
+         this IEntityStore<T> iEntityStore,
+         long[] ids,
+         bool asNoTracking,
+         CancellationToken cancellationToken)
+         where T : EntityBase
+        {
+            var idsDistinct = ids.Distinct();
+
+            var query = iEntityStore.Query().Where(_ => idsDistinct.Contains(_.Id));
+            if (asNoTracking)
+            {
+                query = query.AsNoTracking();
+            }
+
+            return await query.ToListAsync(cancellationToken: cancellationToken);
         }
 
         public static IQueryable<TSource> OrderByCustomer<TSource>(this IQueryable<TSource> source, IQueryCustomerSort customerOrderBy)
