@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
-using Zy.App.Common.Core.DbContextExtension.DbContextOptions;
+using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Zy.App.Common.Core.HealthCheckExtensions;
-using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Zy.App.Common.Core.DbContextExtension
 {

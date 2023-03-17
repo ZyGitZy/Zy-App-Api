@@ -6,6 +6,7 @@ using Zy.App.Common.Core.ApplicationBuilderExtensions;
 using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.App.Common.Core.HealthCheckExtensions;
 using Zy.App.Common.Models;
+using Zy.Core.App.Extensions;
 using Zy.Ids.App;
 using Zy.Ids.App.JwtModelExtensions;
 using Zy.User.App;
@@ -32,7 +33,9 @@ namespace Zy.App.Api
 
             builder.AddIdsModel(this.Configuration, e => e.Apply(option))
                 .AddUserModel(e => e.Apply(option))
-            .AddVideoServiceModule().AddModules(m => m.AddHealthCheckMySQL(option.GetConnectionString()))
+            .AddVideoServiceModule()
+            //.AddZyCoreModule(e => e.Apply(option))
+            .AddModules(m => m.AddHealthCheckMySQL(option.GetConnectionString()))
             .BuildModules();
         }
 

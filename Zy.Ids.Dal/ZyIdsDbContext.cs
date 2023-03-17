@@ -7,7 +7,7 @@ namespace Zy.Ids.Dal
 {
     public class ZyIdsDbContext : DbContextBase
     {
-        public ZyIdsDbContext(DbContextOptions<ZyIdsDbContext> options, IConfiguration configuration) : base(options, configuration)
+        public ZyIdsDbContext(DbContextOptions<ZyIdsDbContext> options) : base(options)
         {
 
         }

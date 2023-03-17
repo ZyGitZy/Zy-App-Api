@@ -8,12 +8,9 @@ namespace Zy.User.Dal
 {
     public class ZyUserDbContext : IdentityDbContext<UserEntity, RoleEntity, long, UserClaimEntity, UserRoleEntity, UserLoginEntity, RoleClaimEntity, UserTokenEntity>
     {
-        private readonly IConfiguration configuration;
-
-        public ZyUserDbContext(DbContextOptions<ZyUserDbContext> options, IConfiguration configuration)
+        public ZyUserDbContext(DbContextOptions<ZyUserDbContext> options)
               : base(options)
         {
-            this.configuration = configuration;
             this.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 

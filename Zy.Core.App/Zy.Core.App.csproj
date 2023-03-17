@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zy.App.Common\Zy.App.Common.csproj" />
+    <ProjectReference Include="..\Zy.Core.Dal\Zy.Core.Dal.csproj" />
   </ItemGroup>
 
 </Project>

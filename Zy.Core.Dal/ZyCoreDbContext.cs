@@ -12,7 +12,7 @@ namespace Zy.Core.Dal
 {
     public class ZyCoreDbContext : DbContextBase
     {
-        public ZyCoreDbContext(DbContextOptions<ZyCoreDbContext> options, IConfiguration configuration) : base(options, configuration)
+        public ZyCoreDbContext(DbContextOptions<ZyCoreDbContext> options) : base(options)
         {
         }
 

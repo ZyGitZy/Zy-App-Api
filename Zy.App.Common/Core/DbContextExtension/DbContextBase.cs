@@ -1,31 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Interfaces;
 using Zy.App.Common.Models;
-using Microsoft.Extensions.Configuration;
-using System.Reflection;
 
 namespace Zy.App.Common.Core.DbContextExtension
 {
     public class DbContextBase : DbContext
     {
-        protected IConfiguration configuration;
-
         private readonly GlobalQueryFilter _globalQueryFilter;
 
         protected IZyAppContext singlarContex = EmptyZyAppContext.Empty;
 
-        public DbContextBase(Microsoft.EntityFrameworkCore.DbContextOptions options, IConfiguration configuration) : base(options)
+        public DbContextBase(DbContextOptions options) : base(options)
         {
             this._globalQueryFilter = new GlobalQueryFilter();
-            this.configuration = configuration;
             this.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 

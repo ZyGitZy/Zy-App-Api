@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,6 @@ using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Core.App.Abstractions;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Core.DbContextExtension;
-using Zy.App.Common.Core.DbContextExtension.DbContextOptions;
 using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.App.Common.StoreCore;
 using Zy.User.App.Controllers;
@@ -28,14 +28,14 @@ namespace Zy.User.App
 {
     public static class UserModelExtension
     {
-        public static IZyMvcBuilder AddUserModel(this IZyMvcBuilder mvcBuilder,Action<ZyDbContextOption> opt)
+        public static IZyMvcBuilder AddUserModel(this IZyMvcBuilder mvcBuilder, Action<ZyDbContextOption> opt)
         {
             var option = new ZyDbContextOption();
             opt(option);
             mvcBuilder.AddModules(m =>
             {
-                m.AddMysqlDbContext<ZyUserDbContext>(o => o.Apply(option));
                 m.AddServices();
+                m.AddMysqlDbContext<ZyUserDbContext>(o => o.Apply(option));
                 m.AddAutoMapper(typeof(UserDtoProfile).Assembly);
                 m.AddAutoMapper(typeof(UserBoProfile).Assembly);
                 m.AddController(typeof(UserController).Assembly);
@@ -47,8 +47,7 @@ namespace Zy.User.App
         private static void AddServices(this IZyMvcModuleBuilder mvcbuilder)
         {
             var services = mvcbuilder.Services;
-            services.AddDbContext<ZyUserDbContext>();
-            services.AddScoped(typeof(EntityStore<>), typeof(UserEntityStore<>));
+            services.TryAddScoped(typeof(EntityStore<>),typeof(UserEntityStore<>));
             services.AddScoped(typeof(UserEntityStore<>), typeof(UserEntityStore<>));
             services.AddScoped<IUserService, UserService>();
         }
