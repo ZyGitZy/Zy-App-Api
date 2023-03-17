@@ -43,6 +43,7 @@ namespace Zy.Core.Bll.Services
 
                 if (!menuBo.FullPath.Any(a => menuBo.ParentId == a))
                 {
+                    menuBo.FullPath = new List<long>();
                     await GetParentIdTree(menuBo.ParentId, menuBo.FullPath);
                 }
             }
@@ -116,9 +117,34 @@ namespace Zy.Core.Bll.Services
             return this.Ok(result);
         }
 
-        public Task<ServiceResult> UpdateAsync(MenuBo menuBo, long id)
+        public async Task<ServiceResult> UpdateAsync(MenuBo menuBo, long id)
         {
-            throw new NotImplementedException();
+            var entity = await this.zyCoreEntityStore.FindAsync(default, id);
+
+            if (entity == null)
+            {
+                return this.NotFound(this.errKey, id);
+            }
+
+            if (menuBo.ParentId != 0)
+            {
+                if (!await this.zyCoreEntityStore.AnyAsync(a => a.ParentId == menuBo.ParentId))
+                {
+                    return this.NotFound(errKey + "父", menuBo.ParentId);
+                }
+
+                if (!menuBo.FullPath.Any(a => menuBo.ParentId == a))
+                {
+                    menuBo.FullPath = new List<long>(); // 每次都重新生成菜单 要优化
+                    await GetParentIdTree(menuBo.ParentId, menuBo.FullPath);
+                }
+            }
+
+            this.mapper.Map(menuBo, entity);
+
+            await this.zyCoreEntityStore.SaveChangesAsync();
+
+            return this.Ok();
         }
 
         private async Task GetParentIdTree(long parentId, List<long> dataSource)
