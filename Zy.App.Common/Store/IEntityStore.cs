@@ -25,6 +25,10 @@ namespace Zy.App.Common.StoreCore
 
         TEntity Create(TEntity entity);
 
+        bool Any(Expression<Func<TEntity, bool>>? query = null);
+
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? query = null);
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

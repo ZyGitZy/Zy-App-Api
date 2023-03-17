@@ -34,7 +34,7 @@ namespace Zy.App.Api
             builder.AddIdsModel(this.Configuration, e => e.Apply(option))
                 .AddUserModel(e => e.Apply(option))
             .AddVideoServiceModule()
-            //.AddZyCoreModule(e => e.Apply(option))
+            .AddZyCoreModule(e => e.Apply(option))
             .AddModules(m => m.AddHealthCheckMySQL(option.GetConnectionString()))
             .BuildModules();
         }

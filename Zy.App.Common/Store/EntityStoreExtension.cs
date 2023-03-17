@@ -27,7 +27,7 @@
         {
             StringContainsMethodInfo = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string), typeof(StringComparison) });
 
-            if (StringContainsMethodInfo == null) 
+            if (StringContainsMethodInfo == null)
             {
                 throw new Exception("未从string上获取到 Contains(string par,StringComparison par)方法");
             }
@@ -97,7 +97,7 @@
                 return true;
             });
 
-            if (QueryableWhereMethodInfo == null) 
+            if (QueryableWhereMethodInfo == null)
             {
                 throw new Exception("未从Queryable上获取到where方法");
             }
@@ -109,8 +109,8 @@
         public static async ValueTask<IEnumerable<T>> FindByIdsAsync<T>(
          this IEntityStore<T> iEntityStore,
          long[] ids,
-         bool asNoTracking,
-         CancellationToken cancellationToken)
+         bool asNoTracking = false,
+         CancellationToken cancellationToken = default)
          where T : EntityBase
         {
             var idsDistinct = ids.Distinct();

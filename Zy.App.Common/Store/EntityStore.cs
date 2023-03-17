@@ -37,6 +37,26 @@ namespace Zy.App.Common.StoreCore
             return entity;
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? query = null)
+        {
+            if (query != null)
+            {
+                return await this.dataSet.AnyAsync(query);
+            }
+
+            return await this.dataSet.AnyAsync();
+        }
+
+        public bool Any(Expression<Func<TEntity, bool>>? query = null)
+        {
+            if (query != null)
+            {
+                return this.dataSet.Any(query);
+            }
+
+            return this.dataSet.Any();
+        }
+
         public async Task<TEntity> CreateSaveAsync(TEntity entity, CancellationToken cancellationToken)
         {
             this.Create(entity);

@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Zy.Core.Dal\Zy.Core.Dal.csproj" />
+    <ProjectReference Include="..\Zy.Core\Zy.Core.csproj" />
+  </ItemGroup>
+
 </Project>

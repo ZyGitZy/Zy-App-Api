@@ -11,7 +11,7 @@ using Zy.App.Common.Models;
 
 namespace Zy.Core.Dal.Entitys
 {
-    public class MenuEntity : EntityBase
+    public class MenuEntity : EntityBase, IEntityAdditionColumns
     {
         [Required]
         [Column(TypeName = ColumnTypes.Name)]
@@ -32,13 +32,28 @@ namespace Zy.Core.Dal.Entitys
         public long ParentId { get; set; }
 
         [Required]
-        [Column(TypeName = ColumnTypes.Remark)]
-        [DefaultValue("")]
+        [Column(TypeName = ColumnTypes.Json)]
         public string FullPath { get; set; } = string.Empty;
 
         [Required]
         [Column(TypeName = ColumnTypes.Name)]
         [DefaultValue("")]
         public string IconName { get; set; } = string.Empty;
+
+        [Required]
+        [DefaultValue(0)]
+        public long CreateByUserId { get; set; }
+
+        [Required]
+        [DefaultValue(typeof(DateTime), "0001-01-01")]
+        public DateTime CreateDateTime { get; set; }
+
+        [Required]
+        [DefaultValue(0)]
+        public long LastUpdateByUserId { get; set; }
+
+        [Required]
+        [DefaultValue(typeof(DateTime), "0001-01-01")]
+        public DateTime LastUpdateDateTime { get; set; }
     }
 }

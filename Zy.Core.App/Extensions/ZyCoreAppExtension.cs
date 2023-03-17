@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Core.DbContextExtension;
 using Zy.App.Common.Models;
+using Zy.Core.App.Controllers;
+using Zy.Core.App.Profiles;
 using Zy.Core.Dal;
 
 namespace Zy.Core.App.Extensions
@@ -22,6 +24,8 @@ namespace Zy.Core.App.Extensions
             {
                 m.AddMysqlDbContext<ZyCoreDbContext>(o => o.Apply(zyCoreAppOption));
                 m.AddServices();
+                m.AddController(typeof(MenuController).Assembly);
+                m.AddAutoMapper(typeof(MenuDtoProfile).Assembly);
             });
 
             return builder;
