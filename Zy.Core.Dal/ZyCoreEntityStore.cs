@@ -11,7 +11,7 @@ namespace Zy.Core.Dal
 {
     public class ZyCoreEntityStore<Entity> : EntityStore<Entity>, IZyCoreEntityStore<Entity> where Entity : class, IEntity
     {
-        public ZyCoreEntityStore(IZyAppContext zyAppContext, DbContextBase dbContext) : base(zyAppContext, dbContext)
+        public ZyCoreEntityStore(IZyAppContext zyAppContext, ZyCoreDbContext dbContext) : base(zyAppContext, dbContext)
         {
         }
     }

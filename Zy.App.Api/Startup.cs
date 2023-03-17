@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Pomelo.EntityFrameworkCore.MySql.Internal;
 using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Core.App.Abstractions;
 using Zy.App.Common.Core.ApplicationBuilderExtensions;
+using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
+using Zy.App.Common.Core.HealthCheckExtensions;
 using Zy.App.Common.Models;
 using Zy.Ids.App;
 using Zy.Ids.App.JwtModelExtensions;
@@ -24,11 +27,13 @@ namespace Zy.App.Api
         {
             var builder = services.AddZyMvcBuilder().AddLibScopModels();
 
-            builder.AddIdsModel(this.Configuration)
-                .AddUserModel()
-                .AddVideoServiceModule()
-                .BuildModules();
+            ZyDbContextOption option = new ZyDbContextOption();
+            this.Configuration.GetSection("MySql").Bind(option);
 
+            builder.AddIdsModel(this.Configuration, e => e.Apply(option))
+                .AddUserModel(e => e.Apply(option))
+            .AddVideoServiceModule().AddModules(m => m.AddHealthCheckMySQL(option.GetConnectionString()))
+            .BuildModules();
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)

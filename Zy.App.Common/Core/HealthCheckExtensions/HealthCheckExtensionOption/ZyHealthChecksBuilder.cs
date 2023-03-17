@@ -17,9 +17,9 @@ namespace Zy.App.Common.Core.HealthCheckExtensions.HealthCheckExtensionOption
 
         public ZyHealthChecksBuilder(IHealthChecksBuilder healthChecksBuilder)
         {
-            this.healthChecks = healthChecksBuilder;
+            this.HealthChecks = healthChecksBuilder;
         }
 
-        public IHealthChecksBuilder? healthChecks { get; }
+        public IHealthChecksBuilder? HealthChecks { get; }
     }
 }

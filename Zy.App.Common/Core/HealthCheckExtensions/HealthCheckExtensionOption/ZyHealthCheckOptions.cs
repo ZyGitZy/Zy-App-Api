@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -71,6 +72,32 @@ namespace Zy.App.Common.Core.HealthCheckExtensions.HealthCheckExtensionOption
 
         public AspNetCoreHealthCheckOptions HealthDetailOptions { get; set; }
 
+        public HealthCheckItemTags Tag { get; set; } = HealthCheckItemTags.Ready;
+
+        public string? Name { get; set; }
+
+        public TimeSpan? Timeout { get; set; } = new TimeSpan(0, 0, 0, 3);
+
+        public HealthStatus? FailureStatus { get; set; }
+
+        public string[] GetTags()
+        {
+            switch (this.Tag)
+            {
+                case HealthCheckItemTags.Ignore:
+                    return new string[] { HealthCheckTags.Ignore };
+                case HealthCheckItemTags.Both:
+                    return new string[] { HealthCheckTags.Live, HealthCheckTags.Ready };
+                case HealthCheckItemTags.Live:
+                    return new string[] { HealthCheckTags.Live };
+                case HealthCheckItemTags.Ready:
+                    return new string[] { HealthCheckTags.Ready };
+                default:
+                    return new string[] { };
+            }
+        }
+
+
         public void Apply(ZyHealthCheckOptions source)
         {
             if (source == null)
@@ -103,5 +130,15 @@ namespace Zy.App.Common.Core.HealthCheckExtensions.HealthCheckExtensionOption
         public const string Ready = "ready";
 
         public const string Live = "live";
+    }
+
+    [Flags]
+    public enum HealthCheckItemTags
+    {
+        Ignore = 0,
+        Live = 1,
+        Ready = 2,
+        Both = 4,
+        None = 8,
     }
 }

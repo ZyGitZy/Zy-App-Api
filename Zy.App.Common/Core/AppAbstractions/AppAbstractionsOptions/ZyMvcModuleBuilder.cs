@@ -21,7 +21,7 @@ namespace Zy.App.Common.Core.AppAbstractions.AppAbstractionsOptions
             this.Services = services;
             this._autoMappers = new List<Assembly>();
             this._controllers = new List<Assembly>();
-            this.healthChecks = healthChecks;
+            this.HealthChecks = healthChecks;
         }
 
         public IEnumerable<Assembly> AutoMappers => this._autoMappers;
@@ -30,7 +30,7 @@ namespace Zy.App.Common.Core.AppAbstractions.AppAbstractionsOptions
 
         public IServiceCollection Services { get; }
 
-        public IHealthChecksBuilder healthChecks { get; }
+        public IHealthChecksBuilder HealthChecks { get; }
 
         public IZyMvcModuleBuilder AddAutoMapper(Assembly assembly)
         {

@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Core.App.Abstractions;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
+using Zy.App.Common.Core.DbContextExtension;
+using Zy.App.Common.Core.DbContextExtension.DbContextOptions;
+using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.App.Common.StoreCore;
 using Zy.User.App.Controllers;
 using Zy.User.App.Profiles;
@@ -25,10 +28,13 @@ namespace Zy.User.App
 {
     public static class UserModelExtension
     {
-        public static IZyMvcBuilder AddUserModel(this IZyMvcBuilder mvcBuilder)
+        public static IZyMvcBuilder AddUserModel(this IZyMvcBuilder mvcBuilder,Action<ZyDbContextOption> opt)
         {
+            var option = new ZyDbContextOption();
+            opt(option);
             mvcBuilder.AddModules(m =>
             {
+                m.AddMysqlDbContext<ZyUserDbContext>(o => o.Apply(option));
                 m.AddServices();
                 m.AddAutoMapper(typeof(UserDtoProfile).Assembly);
                 m.AddAutoMapper(typeof(UserBoProfile).Assembly);

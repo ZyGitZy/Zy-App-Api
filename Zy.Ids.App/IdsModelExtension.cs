@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Core.DbContextExtension;
+using Zy.App.Common.Core.DbContextExtension.DbContextOptions;
+using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.Ids.App.Controllers;
 using Zy.Ids.App.IdsModelExtensions;
 using Zy.Ids.App.Profiles;
@@ -22,12 +24,16 @@ namespace Zy.Ids.App
 {
     public static class IdsModelExtension
     {
-        public static IZyMvcBuilder AddIdsModel(this IZyMvcBuilder mvcBuilder, IConfiguration configuration)
+        public static IZyMvcBuilder AddIdsModel(this IZyMvcBuilder mvcBuilder, IConfiguration configuration, Action<ZyDbContextOption> action)
         {
+            ZyDbContextOption zyDbContextOption = new();
+            action(zyDbContextOption);
+
             mvcBuilder.AddIdentityServiceModel(configuration);
 
             mvcBuilder.AddModules(m =>
             {
+                m.AddMysqlDbContext<ZyIdsDbContext>(opt => opt.Apply(zyDbContextOption));
                 m.AddAutoMapper(typeof(ClientAppProfile).Assembly);
                 m.AddAutoMapper(typeof(ClientBllProfile).Assembly);
                 m.AddController(typeof(ClientController).Assembly);

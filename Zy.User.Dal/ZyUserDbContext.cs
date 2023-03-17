@@ -22,12 +22,6 @@ namespace Zy.User.Dal
             BuildIdentityModel(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connectionString = this.configuration.GetSection("ConnectionString").Value;
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e => e.MigrationsAssembly("Zy.App.Api"));
-        }
-
         private static void BuildIdentityModel(ModelBuilder builder)
         {
             builder.Entity<UserEntity>(

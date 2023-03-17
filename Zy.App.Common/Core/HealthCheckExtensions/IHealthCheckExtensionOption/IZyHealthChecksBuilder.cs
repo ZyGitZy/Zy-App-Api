@@ -9,6 +9,6 @@ namespace Zy.App.Common.Core.HealthCheckExtensions.IHealthCheckExtensionOption
 {
     public interface IZyHealthChecksBuilder
     {
-        IHealthChecksBuilder healthChecks { get; }
+        IHealthChecksBuilder HealthChecks { get; }
     }
 }

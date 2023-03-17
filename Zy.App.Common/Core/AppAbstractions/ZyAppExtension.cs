@@ -30,7 +30,7 @@ namespace Zy.App.Common.Core.App.Abstractions
 
             var healthCheck = services.AddZyHealthCheckService(opt => opt.Apply(mvcOption.HealthCheckOption));
 
-            var builder = new ZyMvcBuilder(mvcCore, services, healthCheck.healthChecks);
+            var builder = new ZyMvcBuilder(mvcCore, services, healthCheck.HealthChecks);
 
             return builder;
         }
