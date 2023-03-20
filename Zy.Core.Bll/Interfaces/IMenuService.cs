@@ -22,5 +22,6 @@ namespace Zy.Core.Bll.Interfaces
         Task<ServiceResult<QueryResult<MenuBo>>> QueryAsync(MenuQueryBo MenuQueryBo);
 
         Task<ServiceResult<IEnumerable<MenuBo>>> FindByIdsAsync(long[] ids);
+
     }
 }

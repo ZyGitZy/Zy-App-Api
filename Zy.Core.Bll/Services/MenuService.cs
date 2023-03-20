@@ -33,7 +33,6 @@ namespace Zy.Core.Bll.Services
 
         public async Task<ServiceResult<long>> CreateAsync(MenuBo menuBo)
         {
-
             if (menuBo.ParentId != 0)
             {
                 if (!await this.zyCoreEntityStore.AnyAsync(a => a.ParentId == menuBo.ParentId))
@@ -43,8 +42,7 @@ namespace Zy.Core.Bll.Services
 
                 if (!menuBo.FullPath.Any(a => menuBo.ParentId == a))
                 {
-                    menuBo.FullPath = new List<long>();
-                    await GetParentIdTree(menuBo.ParentId, menuBo.FullPath);
+                    menuBo.FullPath.Add(menuBo.ParentId);
                 }
             }
 
@@ -98,7 +96,8 @@ namespace Zy.Core.Bll.Services
 
         public async Task<ServiceResult<QueryResult<MenuBo>>> QueryAsync(MenuQueryBo menuQueryBo)
         {
-            var linq = this.zyCoreEntityStore.Query().WhereLike(w => w.Name, menuQueryBo.Name);
+            var linq = this.zyCoreEntityStore.Query()
+                .WhereLike(w => w.Name, menuQueryBo.Name);
 
             var result = new QueryResult<MenuBo>(menuQueryBo);
 

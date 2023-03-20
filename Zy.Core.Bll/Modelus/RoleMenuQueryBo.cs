@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Zy.App.Common.Models;
 
-namespace Zy.Core.App.Modules
+namespace Zy.Core.Bll.Modelus
 {
-    public class MenuQueryDto : ResourceQueryDto
+    public class RoleMenuQueryBo : ResourceBo
     {
-        public string Name { get; set; } = string.Empty;
-
+        public long MenuId { get; set; }
         public long RoleId { get; set; }
     }
 }
