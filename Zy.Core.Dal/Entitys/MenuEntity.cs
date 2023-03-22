@@ -11,6 +11,7 @@ using Zy.App.Common.Models;
 
 namespace Zy.Core.Dal.Entitys
 {
+    [Table("ZyCore.Menu")]
     public class MenuEntity : EntityBase, IEntityAdditionColumns
     {
         [Required]

@@ -89,7 +89,7 @@ namespace Zy.App.Api.Migrations.ZyCore
 
                     b.HasKey("Id");
 
-                    b.ToTable("MenuEntity");
+                    b.ToTable("ZyCore.Menu");
                 });
 
             modelBuilder.Entity("Zy.Core.Dal.Entitys.RoleMenuEntity", b =>
@@ -140,7 +140,7 @@ namespace Zy.App.Api.Migrations.ZyCore
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoleMenuEntity");
+                    b.ToTable("ZyCore.RoleMenu");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,7 +11,7 @@ using Zy.Core.Dal;
 namespace Zy.App.Api.Migrations.ZyCore
 {
     [DbContext(typeof(ZyCoreDbContext))]
-    [Migration("20230320100112_ZyCoreV001")]
+    [Migration("20230322020751_ZyCoreV001")]
     partial class ZyCoreV001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,7 +91,7 @@ namespace Zy.App.Api.Migrations.ZyCore
 
                     b.HasKey("Id");
 
-                    b.ToTable("MenuEntity");
+                    b.ToTable("ZyCore.Menu");
                 });
 
             modelBuilder.Entity("Zy.Core.Dal.Entitys.RoleMenuEntity", b =>
@@ -142,7 +142,7 @@ namespace Zy.App.Api.Migrations.ZyCore
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoleMenuEntity");
+                    b.ToTable("ZyCore.RoleMenu");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Zy.App.Common.Models;
 
 namespace Zy.Core.Dal.Entitys
 {
+    [Table("ZyCore.RoleMenu")]
     public class RoleMenuEntity : EntityBase
     {
         [Required]

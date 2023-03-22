@@ -13,7 +13,7 @@ namespace Zy.App.Api.Migrations.ZyCore
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MenuEntity",
+                name: "ZyCore.Menu",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
@@ -33,12 +33,12 @@ namespace Zy.App.Api.Migrations.ZyCore
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MenuEntity", x => x.Id);
+                    table.PrimaryKey("PK_ZyCore.Menu", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "RoleMenuEntity",
+                name: "ZyCore.RoleMenu",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
@@ -53,7 +53,7 @@ namespace Zy.App.Api.Migrations.ZyCore
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleMenuEntity", x => x.Id);
+                    table.PrimaryKey("PK_ZyCore.RoleMenu", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
         }
@@ -61,10 +61,10 @@ namespace Zy.App.Api.Migrations.ZyCore
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MenuEntity");
+                name: "ZyCore.Menu");
 
             migrationBuilder.DropTable(
-                name: "RoleMenuEntity");
+                name: "ZyCore.RoleMenu");
         }
     }
 }
