@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Zy.App.Common.StoreCore;
 using Zy.Ids.DAL.Entitys;
+using Zy.User.Dal;
 using Zy.User.DAL.Entitys;
 
 namespace Zy.Ids.App.IdsModelExtensions
@@ -16,14 +17,14 @@ namespace Zy.Ids.App.IdsModelExtensions
         private readonly IEntityStore<ClientScopeEntity> scopeStore;
         private readonly IEntityStore<ClientSecretEntity> secretStore;
         private readonly IEntityStore<ClientRedirectUriEntity> redirectUriStore;
-        private readonly IEntityStore<UserEntity> userStore;
+        private readonly UserEntityStore<UserEntity> userStore;
 
         public ClientStore(IEntityStore<ClientEntity> clientStore,
             IEntityStore<ClientGrantTypeEntity> grantTypeStore,
             IEntityStore<ClientScopeEntity> scopeStore,
             IEntityStore<ClientRedirectUriEntity> redirectUriStore,
             IEntityStore<ClientSecretEntity> secretStore,
-            IEntityStore<UserEntity> userStore
+            UserEntityStore<UserEntity> userStore
             )
         {
             this.clientStore = clientStore;
@@ -96,7 +97,7 @@ namespace Zy.Ids.App.IdsModelExtensions
                 if (user != null)
                 {
                     filterDic.Add("user_id", new Claim("user_id", user.Id.ToString()));
-                    filterDic.Add("user_name", new Claim("user_id", user.Name));
+                    filterDic.Add("user_name", new Claim("user_name", user.Name));
                 }
             }
 

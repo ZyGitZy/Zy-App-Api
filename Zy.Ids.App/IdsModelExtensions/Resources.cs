@@ -15,8 +15,8 @@ namespace Singnalr.DAL.IdentityExentions
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new[] {
-                new ApiResource("Zy.Api","学习"){
-                UserClaims = new List<string>{ "user_name" },
+                new ApiResource("Zy.Api","Demo"){
+                UserClaims = new List<string>{ "user_id","user_name","client_name" },
                 ApiSecrets = {
                 new Secret("Zy.Api.secret".Sha256())
                     }

@@ -33,6 +33,7 @@ namespace Zy.Ids.App.IdsModelExtensions
             .AddPersistedGrantStore<RefreshTokenStore>()
             .AddAspNetIdentity<UserEntity>()
             .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+            .AddProfileService<ProfileServiceStore>()
             //.AddTestUsers(TestUsers.Users)
             .Services.AddTransient<IdentityServer4.ResponseHandling.IUserInfoResponseGenerator, UserInfoResponseGenerator>()
             .AddTransient<IdentityServer4.ResponseHandling.IIntrospectionResponseGenerator, IntrospectionResponseGenerator>();
