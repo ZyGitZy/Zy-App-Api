@@ -10,6 +10,7 @@ namespace Zy.App.Common.Models
     public class AppErrorCodes
     {
         public const string ModelInvalidTitle = "请求无效";
+
         public const string ModelInvalidType = "ModelInvalid";
 
         public const string Length = "Length|请求无效|{0}长度必须是{1}位至{2}位";

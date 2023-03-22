@@ -10,6 +10,9 @@ using Zy.App.Common.Core.DbContextExtension;
 using Zy.App.Common.Models;
 using Zy.Core.App.Controllers;
 using Zy.Core.App.Profiles;
+using Zy.Core.Bll.Interfaces;
+using Zy.Core.Bll.Profiles;
+using Zy.Core.Bll.Services;
 using Zy.Core.Dal;
 
 namespace Zy.Core.App.Extensions
@@ -26,6 +29,7 @@ namespace Zy.Core.App.Extensions
                 m.AddServices();
                 m.AddController(typeof(MenuController).Assembly);
                 m.AddAutoMapper(typeof(MenuDtoProfile).Assembly);
+                m.AddAutoMapper(typeof(MenuBoProfile).Assembly);
             });
 
             return builder;
@@ -35,6 +39,8 @@ namespace Zy.Core.App.Extensions
         {
             IServiceCollection service = builder.Services;
             service.TryAddScoped(typeof(IZyCoreEntityStore<>), typeof(ZyCoreEntityStore<>));
+            service.TryAddScoped<IMenuService, MenuService>();
+            service.TryAddScoped<IRoleMenuService, RoleMenuService>();
         }
     }
 }

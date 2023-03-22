@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -26,13 +27,25 @@ namespace Zy.App.Common.Core.App.Abstractions
 
             action(mvcOption);
 
-            var mvcCore = services.AddMvcCore().AddApiExplorer().AddCors();
+            var mvcCore = services.AddMvcCore().AddCors();
 
             var healthCheck = services.AddZyHealthCheckService(opt => opt.Apply(mvcOption.HealthCheckOption));
 
             var builder = new ZyMvcBuilder(mvcCore, services, healthCheck.HealthChecks);
 
+            builder.AddZyApiException();
+
             return builder;
+        }
+
+        public static IZyMvcBuilder AddZyApiException(this IZyMvcBuilder zyMvcBuilder)
+        {
+            zyMvcBuilder.MvcBuilder.AddMvcOptions(o =>
+            {
+                o.Filters.Add<ZyApiExceptionAttribute>();
+            });
+
+            return zyMvcBuilder;
         }
 
         public static IZyMvcBuilder BuildModules(this IZyMvcBuilder mvcBuilder)

@@ -2,6 +2,7 @@
 using Pomelo.EntityFrameworkCore.MySql.Internal;
 using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Core.App.Abstractions;
+using Zy.App.Common.Core.AppAbstractions.AppAbstractionsOptions;
 using Zy.App.Common.Core.ApplicationBuilderExtensions;
 using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.App.Common.Core.HealthCheckExtensions;

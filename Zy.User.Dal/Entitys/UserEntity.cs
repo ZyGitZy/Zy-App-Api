@@ -22,7 +22,7 @@ namespace Zy.User.DAL.Entitys
         [Required]
         [DefaultValue("")]
         [Column(TypeName = ColumnTypes.No)]
-        public string No { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         [DefaultValue(0L)]

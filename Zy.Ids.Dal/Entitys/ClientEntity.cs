@@ -24,6 +24,10 @@ namespace Zy.Ids.DAL.Entitys
         [DefaultValue(0)]
         public int ConsentLifetime { get; set; }
 
+        [Required]
+        [DefaultValue(0)]
+        public long UserId { get; set; }
+
         /// <summary>
         ///
         /// </summary>

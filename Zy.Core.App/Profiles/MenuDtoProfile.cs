@@ -14,7 +14,7 @@ namespace Zy.Core.App.Profiles
         public MenuDtoProfile()
         {
             this.CreateMap<MenuDto, MenuBo>().ReverseMap();
-            this.CreateMap<MenuQueryDto, MenuQueryDto>();
+            this.CreateMap<MenuQueryDto, MenuQueryBo>();
         }
     }
 }

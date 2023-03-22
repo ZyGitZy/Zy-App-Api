@@ -11,8 +11,8 @@ using Zy.User.Dal;
 namespace Zy.App.Api.Migrations.ZyUser
 {
     [DbContext(typeof(ZyUserDbContext))]
-    [Migration("20230228064533_ZyUserV001")]
-    partial class ZyUserV001
+    [Migration("20230322081032_ZyUserV002")]
+    partial class ZyUserV002
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,10 +98,14 @@ namespace Zy.App.Api.Migrations.ZyUser
                         .HasColumnType("longtext");
 
                     b.Property<long>("CreateByUserId")
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
 
                     b.Property<DateTime>("CreateDateTime")
-                        .HasColumnType("datetime(6)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
@@ -110,10 +114,14 @@ namespace Zy.App.Api.Migrations.ZyUser
                         .HasColumnType("tinyint(1)");
 
                     b.Property<long>("LastUpdateByUserId")
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
 
                     b.Property<DateTime>("LastUpdateDateTime")
-                        .HasColumnType("datetime(6)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -123,7 +131,9 @@ namespace Zy.App.Api.Migrations.ZyUser
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(200)")
+                        .HasDefaultValue("");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("longtext");
@@ -133,7 +143,9 @@ namespace Zy.App.Api.Migrations.ZyUser
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("longtext")
+                        .HasDefaultValue("");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("longtext");
@@ -148,7 +160,9 @@ namespace Zy.App.Api.Migrations.ZyUser
                         .HasColumnType("longtext");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");

@@ -79,9 +79,9 @@ namespace Zy.App.Common.Core.Controller
         }
 
         public static IActionResult Result<T>(
-            this ControllerBase controller,
-            ServiceResult<T> serviceResult,
-            Func<T, object> mapper)
+         this ControllerBase controller,
+         ServiceResult<T> serviceResult,
+         Func<T, object> mapper)
         {
             if (serviceResult.Success)
             {

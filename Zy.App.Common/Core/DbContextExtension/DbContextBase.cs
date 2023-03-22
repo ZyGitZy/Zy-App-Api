@@ -155,7 +155,7 @@ namespace Zy.App.Common.Core.DbContextExtension
 
         private void UpdateUpadtedProperty()
         {
-            var modifiedSourceInfo = this.ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            var modifiedSourceInfo = this.ChangeTracker.Entries().Where(s => s.State == EntityState.Added || s.State == EntityState.Modified);
             var updateContentInfo = new UpdateContextInfo(this.singlarContex);
 
             foreach (var entity in modifiedSourceInfo)

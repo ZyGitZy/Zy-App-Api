@@ -89,10 +89,10 @@ namespace Zy.User.Bll.Services
                 userEntity.LockoutEnd = DateTime.Now;
             }
 
-            if (await IsExistsNo(userEntity.No) && await IsExistsNo(userEntity.No.ToUpper()))
-            {
-                return this.NoDuplicate(userTemp, userEntity.No);
-            }
+            //if (await IsExistsNo(userEntity.UserName) && await IsExistsNo(userEntity.UserName.ToUpper()))
+            //{
+            //    return this.NoDuplicate(userTemp, userEntity.UserName);
+            //}
 
             userEntity.CreateDateTime = DateTime.Now;
             userEntity.CreateByUserId = this.zyAppContext.UserId;
@@ -121,7 +121,7 @@ namespace Zy.User.Bll.Services
         {
             var linq = this.userEntityStore.Query()
                 .WhereLike(w => w.UserName, query.UserName)
-                .WhereLike(w => w.No, query.No);
+                .WhereLike(w => w.Name, query.No);
 
             var queryResult = new QueryResult<UserBo>(query);
             if (query.EnablePaging && query.Offset == null)
@@ -147,7 +147,7 @@ namespace Zy.User.Bll.Services
             {
                 return false;
             }
-            return await this.userEntityStore.Query(q => q.No == no).AnyAsync();
+            return await this.userEntityStore.Query(q => q.Name == no).AnyAsync();
         }
 
         public async Task<ServiceResult> PutAsync(long id, UserBo userBo)
@@ -159,15 +159,15 @@ namespace Zy.User.Bll.Services
                 return this.NotFound(userTemp, id.ToString());
             }
 
-            var orinalNo = userEntity.No;
+            var orinalNo = userEntity.Name;
 
             this.mapper.Map(userBo, userEntity);
 
-            if (!string.IsNullOrWhiteSpace(userEntity.No) && orinalNo != userEntity.No)
+            if (!string.IsNullOrWhiteSpace(userEntity.Name) && orinalNo != userEntity.Name)
             {
-                if (await IsExistsNo(userEntity.No))
+                if (await IsExistsNo(userEntity.Name))
                 {
-                    return this.NoDuplicate(userTemp, userEntity.No);
+                    return this.NoDuplicate(userTemp, userEntity.Name);
                 }
             }
 

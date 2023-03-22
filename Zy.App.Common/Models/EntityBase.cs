@@ -10,7 +10,7 @@ namespace Zy.App.Common.Models
 {
     public class EntityBase : IEntity<long>, IEntityLogicDelete, IEntityVersion
     {
-        [ConcurrencyCheck]
+        [Timestamp]
         public virtual int? RowVersion { get; set; }
 
         public virtual bool IsDeleted { get; set; }
