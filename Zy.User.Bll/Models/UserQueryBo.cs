@@ -11,6 +11,6 @@ namespace Zy.User.Bll.Models
     {
         public string UserName { get; set; } = string.Empty;
 
-        public string No { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 }

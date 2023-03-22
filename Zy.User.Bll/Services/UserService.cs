@@ -121,7 +121,7 @@ namespace Zy.User.Bll.Services
         {
             var linq = this.userEntityStore.Query()
                 .WhereLike(w => w.UserName, query.UserName)
-                .WhereLike(w => w.Name, query.No);
+                .WhereLike(w => w.Name, query.Name);
 
             var queryResult = new QueryResult<UserBo>(query);
             if (query.EnablePaging && query.Offset == null)
