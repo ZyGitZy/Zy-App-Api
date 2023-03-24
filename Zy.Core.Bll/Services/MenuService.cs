@@ -97,6 +97,8 @@ namespace Zy.Core.Bll.Services
         public async Task<ServiceResult<QueryResult<MenuBo>>> QueryAsync(MenuQueryBo menuQueryBo)
         {
             var linq = this.zyCoreEntityStore.Query()
+                .Where(w => w.ParentId == menuQueryBo.ParentId, menuQueryBo.ParentId.HasValue)
+                .Where(w => w.ParentId == 0, menuQueryBo.IsGetParent)
                 .WhereLike(w => w.Name, menuQueryBo.Name);
 
             var result = new QueryResult<MenuBo>(menuQueryBo);

@@ -11,6 +11,7 @@ using Zy.App.Common.AppExtensions;
 using Zy.App.Common.Core.AppAbstractions.AppAbstractionsOptions;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Core.HealthCheckExtensions;
+using Zy.App.Common.ZyJsonFormatExtensions.ZyJsonConverts;
 
 namespace Zy.App.Common.Core.App.Abstractions
 {
@@ -33,9 +34,20 @@ namespace Zy.App.Common.Core.App.Abstractions
 
             var builder = new ZyMvcBuilder(mvcCore, services, healthCheck.HealthChecks);
 
+            builder.AddZyJsonFormat();
+
             builder.AddZyApiException();
 
             return builder;
+        }
+
+        public static IZyMvcBuilder AddZyJsonFormat(this IZyMvcBuilder zyMvc)
+        {
+            zyMvc.MvcBuilder.AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.Converters.Add(new LongConvert());
+            });
+            return zyMvc;
         }
 
         public static IZyMvcBuilder AddZyApiException(this IZyMvcBuilder zyMvcBuilder)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,9 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Zy.App.Common.Core.AppAbstractions.IAppAbstractionsOptions;
 using Zy.App.Common.Core.DbContextExtension;
+using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.App.Common.Interfaces;
 using Zy.App.Common.Models;
 using Zy.App.Common.StoreCore;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Zy.App.Common.AppExtensions
 {
@@ -26,6 +29,7 @@ namespace Zy.App.Common.AppExtensions
                     mapperConfig.Invoke(sp, mapConfig);
                 }
                 mapConfig.AllowNullCollections = true;
+           
                 var c = mapConfig.ValueTransformers;
 
                 mapConfig.ForAllMaps((typeMap, mappingExpression) =>
@@ -39,6 +43,10 @@ namespace Zy.App.Common.AppExtensions
                         mappingExpression.ForAllOtherMembers(a => a.UseDestinationValue());
                     }
                 });
+
+                mapConfig.CreateMapDicToJson<IList<string>>();
+                mapConfig.CreateMapDicToJson<object>();
+
             }, autoAssemblies);
 
             return services;
@@ -46,7 +54,7 @@ namespace Zy.App.Common.AppExtensions
 
         public static IZyMvcBuilder AddLibScopModels(this IZyMvcBuilder services)
         {
-            services.Services.AddScoped<IZyAppContext, EmptyZyAppContext>();
+            services.Services.AddScoped<IZyAppContext, ZyAppContext>(sp => new ZyAppContext(sp.GetRequiredService<IHttpContextAccessor>()));
             services.Services.AddScoped(typeof(IEntityStore<>), typeof(EntityStore<>));
             services.Services.AddScoped<INoNormalizer, NoNormalizer>();
 

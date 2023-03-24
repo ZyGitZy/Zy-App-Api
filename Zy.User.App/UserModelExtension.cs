@@ -47,9 +47,10 @@ namespace Zy.User.App
         private static void AddServices(this IZyMvcModuleBuilder mvcbuilder)
         {
             var services = mvcbuilder.Services;
-            services.TryAddScoped(typeof(EntityStore<>),typeof(UserEntityStore<>));
+            services.TryAddScoped(typeof(EntityStore<>), typeof(UserEntityStore<>));
             services.AddScoped(typeof(UserEntityStore<>), typeof(UserEntityStore<>));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
         }
     }
 }

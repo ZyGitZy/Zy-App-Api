@@ -12,5 +12,9 @@ namespace Zy.Core.App.Modules
         public string Name { get; set; } = string.Empty;
 
         public long RoleId { get; set; }
+
+        public long? ParentId { get; set; }
+
+        public bool IsGetParent { get; set; } = false;
     }
 }

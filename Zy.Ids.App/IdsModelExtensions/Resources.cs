@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.Ids.DAL.Entitys;
 
 namespace Singnalr.DAL.IdentityExentions
@@ -16,7 +17,7 @@ namespace Singnalr.DAL.IdentityExentions
         {
             return new[] {
                 new ApiResource("Zy.Api","Demo"){
-                UserClaims = new List<string>{ "user_id","user_name","client_name" },
+                UserClaims = new List<string>{ ClaimsTypes.UserId, ClaimsTypes.UserName, ClaimsTypes.ClientName },
                 ApiSecrets = {
                 new Secret("Zy.Api.secret".Sha256())
                     }

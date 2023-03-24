@@ -69,7 +69,7 @@ namespace Zy.Core.Bll.Services
 
             var menu = role.Join(this.zyCoreEntityStore.Query(), inner => inner.MenuId, on => on.Id, (roleMenu, menu) => menu);
 
-            var list = await menu.ToListAsync();
+            var list = await menu.Where(w => w.ParentId == 0).OrderBy(o => o.Sort).ToListAsync();
 
             var result = this.mapper.Map<IEnumerable<MenuEntity>, IEnumerable<MenuBo>>(list);
 

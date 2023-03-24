@@ -3,6 +3,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Zy.App.Common.Core.DbContextExtension.ZyDbContextOptions;
 using Zy.App.Common.StoreCore;
 using Zy.Ids.DAL.Entitys;
 using Zy.User.Dal;
@@ -87,8 +88,8 @@ namespace Zy.Ids.App.IdsModelExtensions
 
             Dictionary<string, Claim> filterDic = new()
             {
-                { "client_id", new Claim("client_id", clientEntity.ClientId) },
-                { "client_name", new Claim("client_name", clientEntity.ClientName) }
+                { ClaimsTypes.ClientId, new Claim(ClaimsTypes.ClientId, clientEntity.ClientId) },
+                { ClaimsTypes.ClientName, new Claim(ClaimsTypes.ClientName, clientEntity.ClientName) }
             };
 
             if (clientEntity.UserId > 0)
@@ -96,8 +97,8 @@ namespace Zy.Ids.App.IdsModelExtensions
                 var user = await this.userStore.FindAsync(default, clientEntity.UserId);
                 if (user != null)
                 {
-                    filterDic.Add("user_id", new Claim("user_id", user.Id.ToString()));
-                    filterDic.Add("user_name", new Claim("user_name", user.Name));
+                    filterDic.Add(ClaimsTypes.UserId, new Claim(ClaimsTypes.UserId, user.Id.ToString()));
+                    filterDic.Add(ClaimsTypes.UserName, new Claim(ClaimsTypes.UserName, user.Name));
                 }
             }
 
