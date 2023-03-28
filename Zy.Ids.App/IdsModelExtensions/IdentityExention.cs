@@ -24,7 +24,7 @@ namespace Zy.Ids.App.IdsModelExtensions
             AddSocp(service);
             AddIdentityModel(service, opt => configuration.GetSection(selectName).Bind(opt));
             service.AddIdentityServer()
-            .AddRedirectUriValidator<RedirectUrlValidator>()
+            //.AddRedirectUriValidator<RedirectUrlValidator>()
             .AddDeveloperSigningCredential(true, "./tempkey.rsa")
             .AddInMemoryIdentityResources(Resources.GetIdentityResources())
             .AddInMemoryApiResources(Resources.GetApiResources())
@@ -33,10 +33,10 @@ namespace Zy.Ids.App.IdsModelExtensions
             .AddPersistedGrantStore<RefreshTokenStore>()
             .AddAspNetIdentity<UserEntity>()
             .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
-            .AddProfileService<ProfileServiceStore>()
+            .AddProfileService<ProfileServiceStore>();
             //.AddTestUsers(TestUsers.Users)
-            .Services.AddTransient<IdentityServer4.ResponseHandling.IUserInfoResponseGenerator, UserInfoResponseGenerator>()
-            .AddTransient<IdentityServer4.ResponseHandling.IIntrospectionResponseGenerator, IntrospectionResponseGenerator>();
+            //.Services.AddTransient<IdentityServer4.ResponseHandling.IUserInfoResponseGenerator, UserInfoResponseGenerator>()
+            //.AddTransient<IdentityServer4.ResponseHandling.IIntrospectionResponseGenerator, IntrospectionResponseGenerator>();
 
             var authority = configuration.GetSection("Authority").Value;
 

@@ -99,7 +99,7 @@ namespace Zy.User.Bll.Services
             userEntity.LastUpdateByUserId = this.zyAppContext.UserId;
             userEntity.LastUpdateDateTime = DateTime.Now;
 
-            var result = await this.userManager.CreateAsync(userEntity);
+            var result = await this.userManager.CreateAsync(userEntity, userBo.Password);
 
             if (result.Succeeded)
             {

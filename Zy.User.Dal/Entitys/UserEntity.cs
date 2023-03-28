@@ -25,6 +25,15 @@ namespace Zy.User.DAL.Entitys
         public string Name { get; set; } = string.Empty;
 
         [Required]
+        [DefaultValue("")]
+        [Column(TypeName = ColumnTypes.NVarchar50)]
+        public string Sex { get; set; } = string.Empty;
+
+        [Required]
+        [DefaultValue(0)]
+        public int Age { get; set; }
+
+        [Required]
         [DefaultValue(0L)]
         public long CreateByUserId { get; set; }
 
@@ -39,9 +48,5 @@ namespace Zy.User.DAL.Entitys
         [Required]
         [DefaultValue(typeof(DateTime), "0001-01-01")]
         public DateTime LastUpdateDateTime { get; set; }
-
-        [Required]
-        [DefaultValue("")]
-        public string Password { get; set; } = string.Empty;
     }
 }
