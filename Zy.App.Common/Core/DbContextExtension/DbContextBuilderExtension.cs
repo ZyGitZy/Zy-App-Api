@@ -33,7 +33,7 @@ namespace Zy.App.Common.Core.DbContextExtension
                 // Add EFCore Extentions
                 CoreOptionsExtension coreOptionsExtension = options.Options.FindExtension<CoreOptionsExtension>() ?? new CoreOptionsExtension();
 
-                ZyCoreOptionsExtension byzanCoreOptionsExtension = new ZyCoreOptionsExtension(coreOptionsExtension);
+                ZyCoreOptionsExtension byzanCoreOptionsExtension = new(coreOptionsExtension);
                 ((IDbContextOptionsBuilderInfrastructure)options).AddOrUpdateExtension(byzanCoreOptionsExtension);
 
                 options.UseMySql(mySqlOptions!.GetConnectionString(), ServerVersion.AutoDetect(mySqlOptions.GetConnectionString()), opt => { opt.MigrationsAssembly(mySqlOptions.MigrationsAssembly); })
